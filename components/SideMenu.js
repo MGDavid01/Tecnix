@@ -6,14 +6,9 @@ const SideMenu = ({ navigation }) => {
   return (
     <View style={styles.menuContainer}>
       {/* Botón de cerrar (X) */}
-      <TouchableOpacity
-        style={styles.closeButton}
-        onPress={() => navigation.closeDrawer()}
-      >
+      <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
         <Text style={styles.closeText}>X</Text>
       </TouchableOpacity>
-
-      {/* Elementos del menú */}
       <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>
         <Text style={styles.menuText}>Home</Text>
       </TouchableOpacity>
@@ -35,11 +30,11 @@ const styles = StyleSheet.create({
   },
   closeButton: {
     position: 'absolute',
-    top: 20,
-    right: 20,
-    backgroundColor: '#ff5c5c',  // Rojo para el botón
+    top: 10,
+    right: 10,
+    backgroundColor: '#ff5c5c',
     padding: 10,
-    borderRadius: 20,
+    borderRadius: 5,
   },
   closeText: {
     color: '#fff',
