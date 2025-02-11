@@ -1,24 +1,27 @@
 // components/SideMenu.js
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
+import { FontsTexts } from "../components/FontsTexts";
 
 const SideMenu = ({ navigation }) => {
   return (
-    <View style={styles.menuContainer}>
-      {/* Botón de cerrar (X) */}
-      <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
-        <Text style={styles.closeText}>X</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>
-        <Text style={styles.menuText}>Home</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
-        <Text style={styles.menuText}>Profile</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
-        <Text style={styles.menuText}>Settings</Text>
-      </TouchableOpacity>
-    </View>
+    <FontsTexts>
+      <View style={styles.menuContainer}>
+        <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
+          <Text style={styles.closeText}>X</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>
+          <Text style={styles.menuText}>Home</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
+          <Text style={styles.menuText}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
+          <Text style={styles.menuText}>Settings</Text>
+        </TouchableOpacity>
+      </View>
+    </FontsTexts>
+
   );
 };
 
@@ -42,11 +45,13 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
   menuItem: {
-    paddingVertical: 15,
+    paddingVertical: 10,
     paddingHorizontal: 20,
   },
   menuText: {
-    fontSize: 18,
+    fontFamily: "Poppins-Regular",
+    fontSize: 20,
+    textAlign: "left",
   },
 });
 
