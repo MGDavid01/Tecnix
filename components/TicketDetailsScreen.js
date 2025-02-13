@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity, Linking } from 'react-native';
 
 const TicketDetailsScreen = ({ route }) => {
   const { ticket } = route.params;
@@ -15,6 +15,22 @@ const TicketDetailsScreen = ({ route }) => {
     { label: 'Asignado a', value: ticket.asignadoA },
   ];
 
+  const openWhatsApp = (phoneNumber, message) => {
+    const appUrl = `whatsapp://send?phone=${phoneNumber}&text=${encodeURIComponent(message)}`;
+    const webUrl = `https://wa.me/${phoneNumber}?text=${encodeURIComponent(message)}`;
+  
+    Linking.canOpenURL(appUrl)
+      .then((supported) => {
+        if (supported) {
+          return Linking.openURL(appUrl);
+        } else {
+          return Linking.openURL(webUrl); // Si no puede abrir la app, usa WhatsApp Web
+        }
+      })
+      .catch((err) => console.error("Error al abrir WhatsApp", err));
+  };
+
+
   return (
     <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Ticket #{ticket.id}</Text>
@@ -26,7 +42,10 @@ const TicketDetailsScreen = ({ route }) => {
           </View>
         ))}
       </View>
-      <TouchableOpacity style={styles.chatButton}>
+      <TouchableOpacity
+        style={styles.chatButton}
+        onPress={() => openWhatsApp('526631646442', `Hola, tengo una consulta sobre el ticket #${ticket.id}`)}
+      >
         <Text style={styles.chatButtonText}>Chat</Text>
       </TouchableOpacity>
     </ScrollView>
