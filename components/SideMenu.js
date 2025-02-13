@@ -35,6 +35,7 @@ const SideMenu = ({ screens }) => {
             drawerLabelStyle: {
               fontSize: 18,
               fontFamily: "Poppins-Bold",
+              color: "#2E2E2E",
             },
           }}
         />

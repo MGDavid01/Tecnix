@@ -1,9 +1,10 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
+import { NavigationContainer } from '@react-navigation/native';
 import SideMenu from './components/SideMenu';
 import { FontsTexts } from "./components/FontsTexts";
-import { NavigationContainer } from '@react-navigation/native';
+import TicketScreen  from "./components/TicketScreen";
 
 // Pantallas de la aplicación
 function HomeScreen() {
@@ -15,11 +16,7 @@ function HomeScreen() {
 }
 
 function TicketsScreen() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Tickets Pending</Text>
-    </View>
-  );
+  return <TicketScreen />;
 }
 
 function ReportsScreen() {
@@ -67,7 +64,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: "rgb(255 255 255)",
+    backgroundColor: "#F5F5F5",
   },
   textMain: {
     fontFamily: "Poppins-Bold",
@@ -75,5 +72,6 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 46,
     margin: 20,
+    color:"#2E2E2E",
   },
 });
