@@ -2,9 +2,12 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
 import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
+
 import SideMenu from './components/SideMenu';
-import { FontsTexts } from "./components/FontsTexts";
-import TicketScreen  from "./components/TicketScreen";
+import FontsTexts from "./components/FontsTexts";
+import TicketScreen from './components/TicketScreen';
+import TicketDetailsScreen from './components/TicketDetailsScreen';
 
 // Pantallas de la aplicación
 function HomeScreen() {
@@ -15,8 +18,15 @@ function HomeScreen() {
   );
 }
 
+const Stack = createStackNavigator();
+
 function TicketsScreen() {
-  return <TicketScreen />;
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Pending Tickets" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
+    </Stack.Navigator>
+  );
 }
 
 function ReportsScreen() {
@@ -44,7 +54,6 @@ const screens = [
 ];
 
 export default function App() {
-  
   return (
     <FontsTexts>
       <NavigationContainer>
@@ -72,6 +81,7 @@ const styles = StyleSheet.create({
     textAlign: "center",
     lineHeight: 46,
     margin: 20,
+    paddingTop: 10,
     color:"#2E2E2E",
   },
 });

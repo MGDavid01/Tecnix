@@ -1,8 +1,9 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { View, Text, FlatList, StyleSheet, TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 const TicketScreen = () => {
-  const [expandedTicket, setExpandedTicket] = useState(null);
+  const navigation = useNavigation();
 
   const tickets = [
     {
@@ -33,13 +34,13 @@ const TicketScreen = () => {
     },
   ];
 
-  const toggleExpand = (ticketId) => {
-    setExpandedTicket(expandedTicket === ticketId ? null : ticketId);
+  const navigateToDetails = (ticket) => {
+    navigation.navigate('Ticket Details', { ticket });
   };
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.title}>Tickets Pendientes</Text>
+      <Text style={styles.title}>Pending Tickets</Text>
       <FlatList
         data={tickets}
         keyExtractor={(item) => item.id}
@@ -47,34 +48,13 @@ const TicketScreen = () => {
           <View style={styles.ticketContainer}>
             <Text style={styles.ticketTitle}>Ticket #{item.id}</Text>
             <Text style={styles.subtitle}>{item.sucursal}</Text>
-            <Text style={styles.description}>
-              {item.descripcion.length > 30 ? item.descripcion.substring(0, 30) + "..." : item.descripcion}
-            </Text>
+            <Text style={styles.subtitle}>Fecha Límite: {item.fechaLimite}</Text>
+            <Text style={styles.subtitle}>Categoría: {item.categoria}</Text>
 
             {/* Botón "Ver más" */}
-            <TouchableOpacity onPress={() => toggleExpand(item.id)} style={styles.button}>
-              <Text style={styles.buttonText}>{expandedTicket === item.id ? "Ver menos" : "Ver más"}</Text>
+            <TouchableOpacity onPress={() => navigateToDetails(item)} style={styles.button}>
+              <Text style={styles.buttonText}>Ver más</Text>
             </TouchableOpacity>
-
-            {/* Sección expandida con más detalles */}
-            {expandedTicket === item.id && (
-              <View style={styles.details}>
-                <Text><Text style={styles.bold}>Estado:</Text> {item.estado}</Text>
-                <Text><Text style={styles.bold}>Fecha/Hora:</Text> {item.fechaHora}</Text>
-                <Text><Text style={styles.bold}>Categoría:</Text> {item.categoria}</Text>
-                {item.categoria === 'Otros' && (
-                  <Text><Text style={styles.bold}>Problema:</Text> {item.problema}</Text>
-                )}
-                <Text><Text style={styles.bold}>Descripción:</Text> {item.descripcion}</Text>
-                <Text><Text style={styles.bold}>Asignado a:</Text> {item.asignadoA}</Text>
-                <Text><Text style={styles.bold}>Fecha Límite:</Text> {item.fechaLimite}</Text>
-
-                {/* Botón de Chat (sin función aún) */}
-                <TouchableOpacity style={styles.chatButton}>
-                  <Text style={styles.chatButtonText}>Chat</Text>
-                </TouchableOpacity>
-              </View>
-            )}
           </View>
         )}
       />
@@ -104,7 +84,8 @@ const styles = StyleSheet.create({
     shadowOpacity: 0.1,
     shadowRadius: 4,
     elevation: 3,
-    width: '100%', // 🔹 El tamaño se mantiene fijo
+    width: '100%',
+    minWidth: '100%',
     alignSelf:"center",
   },
   ticketTitle: {
@@ -121,12 +102,6 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Medium',
     color: '#555',
   },
-  description: {
-    fontSize: 14,
-    color: '#666',
-    marginBottom: 10,
-    width: "100%",
-  },
   button: {
     marginTop: 5,
     paddingVertical: 5,
@@ -136,28 +111,6 @@ const styles = StyleSheet.create({
     alignSelf: 'flex-end', // 🔹 Alinea el botón a la derecha
   },
   buttonText: {
-    color: "#fff",
-    fontFamily: "Poppins-Bold",
-    fontSize: 14,
-  },
-  details: {
-    marginTop: 10,
-    paddingTop: 5,
-    borderTopWidth: 1,
-    borderTopColor: "#ddd",
-    width: "100%", // 🔹 Evita que el ancho cambie al expandir
-  },
-  bold: {
-    fontFamily: 'Poppins-Bold',
-  },
-  chatButton: {
-    marginTop: 10,
-    padding: 8,
-    backgroundColor: "#28a745",
-    borderRadius: 5,
-    alignItems: "center",
-  },
-  chatButtonText: {
     color: "#fff",
     fontFamily: "Poppins-Bold",
     fontSize: 14,
