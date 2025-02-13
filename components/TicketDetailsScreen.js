@@ -1,42 +1,83 @@
 import React from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, ScrollView, TouchableOpacity } from 'react-native';
 
 const TicketDetailsScreen = ({ route }) => {
   const { ticket } = route.params;
 
+  const details = [
+    { label: 'Sucursal', value: ticket.sucursal },
+    { label: 'Fecha Límite', value: ticket.fechaLimite },
+    { label: 'Categoría', value: ticket.categoria },
+    { label: 'Estado', value: ticket.estado },
+    { label: 'Fecha/Hora', value: ticket.fechaHora },
+    ...(ticket.categoria === 'Otros' ? [{ label: 'Problema', value: ticket.problema }] : []),
+    { label: 'Descripción', value: ticket.descripcion },
+    { label: 'Asignado a', value: ticket.asignadoA },
+  ];
+
   return (
-    <View style={styles.container}>
+    <ScrollView contentContainerStyle={styles.container}>
       <Text style={styles.title}>Ticket #{ticket.id}</Text>
-      <Text style={styles.subtitle}>Sucursal: {ticket.sucursal}</Text>
-      <Text style={styles.subtitle}>Fecha Límite: {ticket.fechaLimite}</Text>
-      <Text style={styles.subtitle}>Categoría: {ticket.categoria}</Text>
-      <Text style={styles.subtitle}>Estado: {ticket.estado}</Text>
-      <Text style={styles.subtitle}>Fecha/Hora: {ticket.fechaHora}</Text>
-      {ticket.categoria === 'Otros' && (
-        <Text style={styles.subtitle}>Problema: {ticket.problema}</Text>
-      )}
-      <Text style={styles.subtitle}>Descripción: {ticket.descripcion}</Text>
-      <Text style={styles.subtitle}>Asignado a: {ticket.asignadoA}</Text>
-    </View>
+      <View style={styles.detailsBox}>
+        {details.map((detail, index) => (
+          <View key={index} style={styles.detailContainer}>
+            <Text style={styles.label}>{detail.label}:</Text>
+            <Text style={styles.value}>{detail.value}</Text>
+          </View>
+        ))}
+      </View>
+      <TouchableOpacity style={styles.chatButton}>
+        <Text style={styles.chatButtonText}>Chat</Text>
+      </TouchableOpacity>
+    </ScrollView>
   );
 };
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
+    flexGrow: 1,
     padding: 20,
     backgroundColor: '#fff',
   },
   title: {
     fontSize: 24,
     fontFamily: 'Poppins-Bold',
+    marginBottom: 20,
+    textAlign: 'center',
+  },
+  detailsBox: {
+    backgroundColor: '#f0f0f0',
+    padding: 15,
+    borderRadius: 10,
+  },
+  detailContainer: {
+    flexDirection: 'row',
     marginBottom: 10,
   },
-  subtitle: {
+  label: {
     fontSize: 16,
-    fontFamily: 'Poppins-Medium',
+    fontFamily: 'Poppins-Bold',
+    color: '#333',
+    flex: 1,
+  },
+  value: {
+    fontSize: 16,
+    fontFamily: 'Poppins-Regular',
     color: '#555',
-    marginBottom: 5,
+    flex: 2,
+  },
+  chatButton: {
+    marginTop: 20,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    backgroundColor: '#007bff',
+    borderRadius: 5,
+    alignSelf: 'center',
+  },
+  chatButtonText: {
+    color: '#fff',
+    fontFamily: 'Poppins-Bold',
+    fontSize: 16,
   },
 });
 
