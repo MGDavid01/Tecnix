@@ -1,27 +1,48 @@
-// components/SideMenu.js
 import React from 'react';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 import { FontsTexts } from "../components/FontsTexts";
+import { createDrawerNavigator } from '@react-navigation/drawer';
 
-const SideMenu = ({ navigation }) => {
+// Declacion el DrawerNavigator
+const Drawer = createDrawerNavigator();
+
+const SideMenu = ({ screens, navigation }) => {
   return (
     <FontsTexts>
-      <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
-          <Text style={styles.closeText}>X</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.menuText}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
+      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => (
+        <View style={styles.menuContainer}>
+          <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
+            <Text style={styles.closeText}>X</Text>
+          </TouchableOpacity>
+          {/* Renderizamos las pantallas con una iteracion */}
+          {screens.map((screen) => (
+            <TouchableOpacity
+              key={screen.name}
+              style={styles.menuItem}
+              onPress={() => navigation.navigate(screen.name)}
+            >
+              <Text style={[styles.menuText, { color: screen.color }]}>{screen.title}</Text>
+            </TouchableOpacity>
+          ))}
+        </View>
+      )}>
+        {/* Mostramos las opciones iterando */}
+        {screens.map((screen) => (
+          <Drawer.Screen
+            key={screen.name}
+            name={screen.name}
+            component={screen.component}
+            options={{
+              title: screen.title,
+              drawerLabelStyle: {
+                fontSize: 18,
+                fontFamily: "Poppins-Bold",
+              },
+            }}
+          />
+        ))}
+      </Drawer.Navigator>
     </FontsTexts>
-
   );
 };
 
