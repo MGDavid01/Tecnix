@@ -17,7 +17,7 @@ function HomeScreen() {
 function TicketsScreen() {
   return (
     <View style={styles.screenContainer}>
-      <Text>Profile Screen</Text>
+      <Text style={styles.textMain}>Tickets Pending</Text>
     </View>
   );
 }
@@ -25,7 +25,7 @@ function TicketsScreen() {
 function ReportsScreen() {
   return (
     <View style={styles.screenContainer}>
-      <Text>Reports Screen</Text>
+      <Text style={styles.textMain}>Reports</Text>
     </View>
   );
 }
@@ -33,12 +33,10 @@ function ReportsScreen() {
 function SettingScreen() {
   return (
     <View style={styles.screenContainer}>
-      <Text>Settings Screen</Text>
+     <Text style={styles.textMain}>Settings</Text>
     </View>
   );
 }
-
-
 
 // 🔹 Arreglo con las opciones de navegación
 const screens = [
@@ -75,6 +73,7 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Bold",
     fontSize: 50,
     textAlign: "center",
-    marginTop: 20,
+    lineHeight: 46,
+    margin: 20,
   },
 });
