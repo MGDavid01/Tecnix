@@ -1,4 +1,2 @@
-npm install @react-navigation/native @react-navigation/drawer react-native-gesture-handler react-native-reanimated react-native-screens
-npm install axios
-npx expo install react-dom react-native-web @expo/metro-runtime
-npm install react-native-paper
+npm install
+npm install expo
