@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SideMenu from './components/SideMenu';
@@ -56,14 +55,11 @@ const screens = [
 export default function App() {
   return (
     <FontsTexts>
-      <NavigationContainer>
-        <SideMenu screens={screens} />
-      </NavigationContainer>
+      <SideMenu screens={screens} />
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
   );
 }
-
 
 const styles = StyleSheet.create({
   content: {
