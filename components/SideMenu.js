@@ -1,27 +1,46 @@
-// components/SideMenu.js
 import React from 'react';
+import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
-import { FontsTexts } from "../components/FontsTexts";
 
-const SideMenu = ({ navigation }) => {
+// Declaramos el DrawerNavigator
+const Drawer = createDrawerNavigator();
+
+// Componente personalizado para el menú lateral
+const CustomDrawerContent = (props) => {
   return (
-    <FontsTexts>
+    <DrawerContentScrollView {...props}>
       <View style={styles.menuContainer}>
-        <TouchableOpacity style={styles.closeButton} onPress={() => navigation.closeDrawer()}>
+        {/* Botón para cerrar el menú */}
+        <TouchableOpacity style={styles.closeButton} onPress={() => props.navigation.closeDrawer()}>
           <Text style={styles.closeText}>X</Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Home')}>
-          <Text style={styles.menuText}>Home</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Profile')}>
-          <Text style={styles.menuText}>Profile</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.menuItem} onPress={() => navigation.navigate('Settings')}>
-          <Text style={styles.menuText}>Settings</Text>
-        </TouchableOpacity>
-      </View>
-    </FontsTexts>
 
+        {/* Renderizamos las opciones del menú */}
+        <DrawerItemList {...props} />
+      </View>
+    </DrawerContentScrollView>
+  );
+};
+
+const SideMenu = ({ screens }) => {
+  return (
+    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
+      {screens.map((screen) => (
+        <Drawer.Screen
+          key={screen.name}
+          name={screen.name}
+          component={screen.component}
+          options={{
+            title: screen.title,
+            drawerLabelStyle: {
+              fontSize: 18,
+              fontFamily: "Poppins-Bold",
+              color: "#2E2E2E",
+            },
+          }}
+        />
+      ))}
+    </Drawer.Navigator>
   );
 };
 
@@ -32,26 +51,16 @@ const styles = StyleSheet.create({
     paddingTop: 50,
   },
   closeButton: {
-    position: 'absolute',
-    top: 10,
-    right: 10,
+    alignSelf: 'flex-end',
     backgroundColor: '#ff5c5c',
     padding: 10,
     borderRadius: 5,
+    marginRight: 20,
   },
   closeText: {
     color: '#fff',
     fontSize: 18,
     fontWeight: 'bold',
-  },
-  menuItem: {
-    paddingVertical: 10,
-    paddingHorizontal: 20,
-  },
-  menuText: {
-    fontFamily: "Poppins-Regular",
-    fontSize: 20,
-    textAlign: "left",
   },
 });
 

@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { NavigationContainer } from '@react-navigation/native';
-import { createDrawerNavigator } from '@react-navigation/drawer';
 import { View, Text, StyleSheet } from 'react-native';
-import SideMenu from './components/SideMenu';  // Importar el menú lateral
-import { FontsTexts } from "./components/FontsTexts";
+import { NavigationContainer } from '@react-navigation/native';
+import { createStackNavigator } from '@react-navigation/stack';
 
-
+import SideMenu from './components/SideMenu';
+import FontsTexts from "./components/FontsTexts";
+import TicketScreen from './components/TicketScreen';
+import TicketDetailsScreen from './components/TicketDetailsScreen';
 
 // Pantallas de la aplicación
 function HomeScreen() {
@@ -17,25 +18,42 @@ function HomeScreen() {
   );
 }
 
-function ProfileScreen() {
+const Stack = createStackNavigator();
+
+function TicketsScreen() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Pending Tickets" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function ReportsScreen() {
   return (
     <View style={styles.screenContainer}>
-      <Text>Profile Screen</Text>
+      <Text style={styles.textMain}>Reports</Text>
     </View>
   );
 }
 
-function SettingsScreen() {
+function SettingScreen() {
   return (
     <View style={styles.screenContainer}>
-      <Text>Settings Screen</Text>
+     <Text style={styles.textMain}>Settings</Text>
     </View>
   );
 }
 
-// Definir el DrawerNavigator
-const Drawer = createDrawerNavigator();
+// 🔹 Arreglo con las opciones de navegación
+const screens = [
+  { name: "Home", component: HomeScreen, title: "Home"},
+  { name: "Pending Tickets", component: TicketsScreen, title: "Pending Tickets"},
+  { name: "Reports", component: ReportsScreen, title: "Reports"},
+  { name: "Setting", component: SettingScreen, title: "Setting"}
+];
 
+<<<<<<< HEAD
 export default function Home() {
   return (
     <FontsTexts>
@@ -44,6 +62,14 @@ export default function Home() {
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>
+=======
+export default function App() {
+  return (
+    <FontsTexts>
+      <NavigationContainer>
+        <SideMenu screens={screens} />
+      </NavigationContainer>
+>>>>>>> b517565d63e7931d9709acf8428ae3d10715a3ab
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
   );
@@ -57,14 +83,17 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     flex: 1,
-    justifyContent: 'flex-start', // Cambiado para alinear elementos arriba
+    justifyContent: 'flex-start',
     alignItems: 'center',
-    backgroundColor: "rgb(255 255 255)",
+    backgroundColor: "#F5F5F5",
   },
   textMain: {
     fontFamily: "Poppins-Bold",
     fontSize: 50,
     textAlign: "center",
-    marginTop: 5, // Ajusta la separación desde arriba
+    lineHeight: 46,
+    margin: 20,
+    paddingTop: 10,
+    color:"#2E2E2E",
   },
 });

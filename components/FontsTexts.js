@@ -13,7 +13,7 @@ const useFonts = async () => {
   });
 };
 
-export const FontsTexts = ({ children }) => {
+const FontsTexts = ({ children }) => {
   const [fontLoaded, setFontLoaded] = useState(false);
 
   useEffect(() => {
@@ -34,3 +34,4 @@ export const FontsTexts = ({ children }) => {
 
   return children;
 };
+export default FontsTexts;
