@@ -18,7 +18,7 @@ export default function Navigation() {
         }}
       >
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Home">
+        <Stack.Screen name="Dashboard">
           {props => <App {...props} tipoUser={tipoUser} />}
         </Stack.Screen>
         <Stack.Screen name="SignUp" component={SignUpScreen} />

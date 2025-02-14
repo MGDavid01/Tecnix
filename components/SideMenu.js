@@ -20,15 +20,13 @@ export default CustomDrawerContent;
 const styles = StyleSheet.create({
   menuContainer: {
     flex: 1,
-    backgroundColor: '#fff',
-    paddingTop: 50,
   },
   closeButton: {
     alignSelf: 'flex-end',
     backgroundColor: '#ff5c5c',
     padding: 10,
     borderRadius: 5,
-    marginRight: 20,
+    marginBottom: 20,
   },
   closeText: {
     color: '#fff',

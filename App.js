@@ -15,7 +15,7 @@ const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 // Pantallas de la aplicación
-function HomeScreen1() {
+function HomeScreenTec() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
@@ -23,7 +23,7 @@ function HomeScreen1() {
   );
 }
 
-function HomeScreen2() {
+function HomeScreenEmp() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 2</Text>
@@ -31,7 +31,7 @@ function HomeScreen2() {
   );
 }
 
-function HomeScreen3() {
+function HomeScreenJefe() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 3</Text>
@@ -56,6 +56,14 @@ function ReportsScreen() {
   );
 }
 
+function FeedbackScreen() {
+  return (
+    <View style={styles.screenContainer}>
+      <Text style={styles.textMain}>Reports</Text>
+    </View>
+  );
+}
+
 function SettingScreen() {
   return (
     <View style={styles.screenContainer}>
@@ -69,21 +77,22 @@ const obtenerPantallasUsuario = (tipoUser) => {
   switch (tipoUser) {
     case 1:
       return [
-        { name: "Home", component: HomeScreen1, title: "Home" },
-        { name: "Pending Tickets", component: TicketsScreen, title: "Pending Tickets" },
+        { name: "HomeTec", component: HomeScreenTec, title: "Home" },
+        { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
       ];
     case 2:
       return [
-        { name: "Home", component: HomeScreen2, title: "Home" },
+        { name: "HomeJefe", component: HomeScreenEmp, title: "Home" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
+        { name: "Feedback", component: FeedbackScreen, title: "Feedback" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
       ];
     case 3:
       return [
-        { name: "Home", component: HomeScreen3, title: "Home" },
-        { name: "Pending Tickets", component: TicketsScreen, title: "Pending Tickets" },
+        { name: "HomeEmp", component: HomeScreenJefe, title: "Home" },
+        { name: "PendingTicketsJefe", component: TicketsScreen, title: "Pending Tickets" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
       ];
     default:
@@ -96,9 +105,9 @@ export default function App({ tipoUser }) {
 
   return (
     <FontsTexts>
-      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
+      <Drawer.Navigator initialRouteName={screens.name} drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
         {screens.map((screen) => (
-          <Drawer.Screen key={screen.name} name={screen.name} component={screen.component} />
+          <Drawer.Screen key={screen.name} name={screen.title} component={screen.component} />
         ))}
       </Drawer.Navigator>
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>

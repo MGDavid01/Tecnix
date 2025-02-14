@@ -12,7 +12,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
   const handleLogIn = () => {
-    navigation.navigate("Home");
+    navigation.navigate("Dashboard");
   };
   const handleSignUp = () => {
     navigation.navigate("SignUp");
@@ -189,6 +189,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
     fontFamily: 'Poppins-Bold',
+    
   },
   signUpText: {
     fontSize: 14,

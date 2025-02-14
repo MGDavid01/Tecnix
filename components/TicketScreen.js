@@ -107,6 +107,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     padding: 10,
     alignItems: 'center',
+    width: '100%',
+    minWidth: '100%',
   },
   title: {
     fontSize: 24,
@@ -145,9 +147,9 @@ const styles = StyleSheet.create({
     marginTop: 5,
     paddingVertical: 5,
     paddingHorizontal: 10,
-    backgroundColor: "#007bff",
+    backgroundColor: "#1E3A8A",
     borderRadius: 5,
-    alignSelf: 'flex-end', // 🔹 Alinea el botón a la derecha
+    alignSelf: 'flex-end',
   },
   buttonText: {
     color: "#fff",
