@@ -53,7 +53,6 @@ const screens = [
   { name: "Setting", component: SettingScreen, title: "Setting"}
 ];
 
-<<<<<<< HEAD
 export default function Home() {
   return (
     <FontsTexts>
@@ -62,14 +61,6 @@ export default function Home() {
         <Drawer.Screen name="Profile" component={ProfileScreen} />
         <Drawer.Screen name="Settings" component={SettingsScreen} />
       </Drawer.Navigator>
-=======
-export default function App() {
-  return (
-    <FontsTexts>
-      <NavigationContainer>
-        <SideMenu screens={screens} />
-      </NavigationContainer>
->>>>>>> b517565d63e7931d9709acf8428ae3d10715a3ab
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
   );
