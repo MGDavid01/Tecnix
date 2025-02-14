@@ -11,7 +11,7 @@ const Login = () => {
   const [showPassword, setShowPassword] = useState(false);
   const navigation = useNavigation();
   const handleLogIn = () => {
-    navigation.navigate("Dashboard");
+    navigation.navigate("Home");
   };
   const handleSignUp = () => {
     // Here you would typically navigate to the SignUp screen

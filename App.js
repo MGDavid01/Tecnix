@@ -1,11 +1,8 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
-<<<<<<< HEAD
-=======
 import { NavigationContainer } from '@react-navigation/native';                                           
 import { createDrawerNavigator } from '@react-navigation/drawer';
->>>>>>> 37bdf841a06815e4b41766b0b97073fc0faf5577
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SideMenu from './components/SideMenu';
@@ -100,15 +97,11 @@ export default function App({ tipoUser }) {
 
   return (
     <FontsTexts>
-<<<<<<< HEAD
-      <SideMenu screens={screens} />
-=======
       <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
         {screens.map((screen) => (
           <Drawer.Screen key={screen.name} name={screen.name} component={screen.component} />
         ))}
       </Drawer.Navigator>
->>>>>>> 37bdf841a06815e4b41766b0b97073fc0faf5577
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
   );
