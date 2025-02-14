@@ -9,6 +9,8 @@ import SideMenu from './components/SideMenu';
 import FontsTexts from "./components/FontsTexts";
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
+import MakeTicketScreen from './components/makeTicketScreen';
+import TicketHistoryScreen from './components/TicketHistory';
 
 
 const Drawer = createDrawerNavigator();
@@ -72,6 +74,24 @@ function SettingScreen() {
   );
 }
 
+//Funcion para ir a la seccion de historial de tickets
+function viewTicketHistory(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Ticket history" component={TicketHistoryScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
+//Funcion para ir a la seccion de creacion de tickets
+function makeTicketOption(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
 // Mostrar herramientas dependiendo el tipo de usuario
 const obtenerPantallasUsuario = (tipoUser) => {
   switch (tipoUser) {
@@ -93,6 +113,8 @@ const obtenerPantallasUsuario = (tipoUser) => {
       return [
         { name: "HomeEmp", component: HomeScreenJefe, title: "Home" },
         { name: "PendingTicketsJefe", component: TicketsScreen, title: "Pending Tickets" },
+        { name: "Make a ticket", component: makeTicketOption, title: "Make a ticket" },
+        { name: "Ticket history", component: viewTicketHistory, title: "Ticket history" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
       ];
     default:
