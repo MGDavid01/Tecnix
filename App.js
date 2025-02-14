@@ -39,7 +39,6 @@ function HomeScreen3() {
   );
 }
 
-
 function TicketsScreen() {
   return (
     <Stack.Navigator>
