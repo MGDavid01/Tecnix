@@ -1,7 +1,8 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
-import { NavigationContainer } from '@react-navigation/native';
+import { NavigationContainer } from '@react-navigation/native';                                           
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
 import SideMenu from './components/SideMenu';
@@ -17,7 +18,7 @@ function HomeScreen() {
     </View>
   );
 }
-
+const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
 
 function TicketsScreen() {
@@ -56,10 +57,9 @@ const screens = [
 export default function Home() {
   return (
     <FontsTexts>
-      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} />}>
+      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
         <Drawer.Screen name="Home" component={HomeScreen} />
-        <Drawer.Screen name="Profile" component={ProfileScreen} />
-        <Drawer.Screen name="Settings" component={SettingsScreen} />
+        <Drawer.Screen name="Settings" component={SettingScreen} />
       </Drawer.Navigator>
       <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
