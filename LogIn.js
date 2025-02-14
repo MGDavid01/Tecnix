@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-nativ
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
-import FontsTexts from './components/FontsTexts'; // Import FontsTexts component
+
+import FontsTexts from './components/FontsTexts';
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -14,8 +15,6 @@ const Login = () => {
     navigation.navigate("Home");
   };
   const handleSignUp = () => {
-    // Here you would typically navigate to the SignUp screen
-    // For now, we'll just log to console
     navigation.navigate("SignUp");
   };
 
@@ -25,15 +24,15 @@ const Login = () => {
         <View style={styles.logoContainer}>
           <MaterialCommunityIcons name="shield-lock-outline" size={50} color="#FFF" />
         </View>
-        <Text style={styles.title}>Sign in to your Account</Text>
-        <Text style={styles.subtitle}>Enter your email and password to log in</Text>
+        <Text style={[styles.text, styles.title]}>Sign in to your Account</Text>
+        <Text style={[styles.text, styles.subtitle]}>Enter your email and password to log in</Text>
 
         <TouchableOpacity style={styles.googleButton}>
           <MaterialCommunityIcons name="google" size={20} color="#000" />
-          <Text style={styles.googleText}>Continue with Google</Text>
+          <Text style={[styles.text, styles.googleText]}>Continue with Google</Text>
         </TouchableOpacity>
 
-        <Text style={styles.orText}>Or login with</Text>
+        <Text style={[styles.text, styles.orText]}>Or login with</Text>
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -68,19 +67,19 @@ const Login = () => {
         <View style={styles.rememberContainer}>
           <TouchableOpacity style={styles.checkboxContainer}>
             <MaterialCommunityIcons name="checkbox-blank-outline" size={20} color="#555" />
-            <Text style={styles.rememberText}>Remember me</Text>
+            <Text style={[styles.text, styles.rememberText]}>Remember me</Text>
           </TouchableOpacity>
           <TouchableOpacity>
-            <Text style={styles.forgotText}>Forgot Password?</Text>
+            <Text style={[styles.text, styles.forgotText]}>Forgot Password?</Text>
           </TouchableOpacity>
         </View>
 
         <TouchableOpacity onPress={handleLogIn} style={styles.loginButton}>
-          <Text style={styles.loginText}>Log In</Text>
+          <Text style={[styles.text, styles.loginText]}>Log In</Text>
         </TouchableOpacity>
 
         <TouchableOpacity onPress={handleSignUp}>
-          <Text style={styles.signUpText}>
+          <Text style={[styles.text, styles.signUpText]}>
             Don't have an account?{" "}
             <Text style={styles.signUpLink}>Sign Up</Text>
           </Text>
@@ -101,19 +100,21 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     alignItems: "center",
   },
+  text: {
+    fontFamily: 'Poppins-Regular',
+  },
   title: {
     fontSize: 22,
     fontWeight: "bold",
     color: "#FFF",
     marginBottom: 10,
-    fontFamily: 'Poppins-Bold', // Use custom font
+    fontFamily: 'Poppins-Bold',
   },
   subtitle: {
     fontSize: 14,
     color: "#DDD",
     marginBottom: 20,
     textAlign: "center",
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   googleButton: {
     flexDirection: "row",
@@ -129,13 +130,12 @@ const styles = StyleSheet.create({
     marginLeft: 10,
     fontSize: 16,
     fontWeight: "bold",
-    fontFamily: 'Poppins-Bold', // Use custom font
+    fontFamily: 'Poppins-Bold',
   },
   orText: {
     fontSize: 14,
     color: "#FFF",
     marginBottom: 10,
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   inputContainer: {
     flexDirection: "row",
@@ -151,7 +151,6 @@ const styles = StyleSheet.create({
     padding: 12,
     fontSize: 16,
     color: "#000",
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   eyeIcon: {
     padding: 10,
@@ -171,12 +170,10 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: "#FFF",
     marginLeft: 8,
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   forgotText: {
     fontSize: 14,
     color: "#FFD700",
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   loginButton: {
     backgroundColor: "#0056B3",
@@ -190,17 +187,16 @@ const styles = StyleSheet.create({
     fontSize: 18,
     color: "#FFF",
     fontWeight: "bold",
-    fontFamily: 'Poppins-Bold', // Use custom font
+    fontFamily: 'Poppins-Bold',
   },
   signUpText: {
     fontSize: 14,
     color: "#FFF",
-    fontFamily: 'Poppins-Regular', // Use custom font
   },
   signUpLink: {
     color: "#FFD700",
     fontWeight: "bold",
-    fontFamily: 'Poppins-Bold', // Use custom font
+    fontFamily: 'Poppins-Bold',
   },
 });
 
