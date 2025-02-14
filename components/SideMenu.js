@@ -1,48 +1,21 @@
 import React from 'react';
-import { createDrawerNavigator, DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
+import { DrawerContentScrollView, DrawerItemList } from '@react-navigation/drawer';
 import { View, Text, TouchableOpacity, StyleSheet } from 'react-native';
 
-// Declaramos el DrawerNavigator
-const Drawer = createDrawerNavigator();
-
-// Componente personalizado para el menú lateral
 const CustomDrawerContent = (props) => {
   return (
     <DrawerContentScrollView {...props}>
       <View style={styles.menuContainer}>
-        {/* Botón para cerrar el menú */}
         <TouchableOpacity style={styles.closeButton} onPress={() => props.navigation.closeDrawer()}>
           <Text style={styles.closeText}>X</Text>
         </TouchableOpacity>
-
-        {/* Renderizamos las opciones del menú */}
         <DrawerItemList {...props} />
       </View>
     </DrawerContentScrollView>
   );
 };
 
-const SideMenu = ({ screens }) => {
-  return (
-    <Drawer.Navigator drawerContent={(props) => <CustomDrawerContent {...props} />}>
-      {screens.map((screen) => (
-        <Drawer.Screen
-          key={screen.name}
-          name={screen.name}
-          component={screen.component}
-          options={{
-            title: screen.title,
-            drawerLabelStyle: {
-              fontSize: 18,
-              fontFamily: "Poppins-Bold",
-              color: "#2E2E2E",
-            },
-          }}
-        />
-      ))}
-    </Drawer.Navigator>
-  );
-};
+export default CustomDrawerContent;
 
 const styles = StyleSheet.create({
   menuContainer: {
@@ -63,5 +36,3 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
   },
 });
-
-export default SideMenu;
