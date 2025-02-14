@@ -36,21 +36,19 @@ function SettingsScreen() {
 // Definir el DrawerNavigator
 const Drawer = createDrawerNavigator();
 
-export default function App() {
-
+export default function Home() {
   return (
     <FontsTexts>
-      <NavigationContainer style={styles.content}>
-        <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} />}>
-          <Drawer.Screen name="Home" component={HomeScreen} />
-          <Drawer.Screen name="Profile" component={ProfileScreen} />
-          <Drawer.Screen name="Settings" component={SettingsScreen} />
-        </Drawer.Navigator>
-        <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
-      </NavigationContainer>
+      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} />}>
+        <Drawer.Screen name="Home" component={HomeScreen} />
+        <Drawer.Screen name="Profile" component={ProfileScreen} />
+        <Drawer.Screen name="Settings" component={SettingsScreen} />
+      </Drawer.Navigator>
+      <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
     </FontsTexts>
   );
 }
+
 
 const styles = StyleSheet.create({
   content: {
