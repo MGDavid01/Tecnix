@@ -24,7 +24,7 @@ const TicketDetailsScreen = ({ route }) => {
         if (supported) {
           return Linking.openURL(appUrl);
         } else {
-          return Linking.openURL(webUrl); // Si no puede abrir la app, usa WhatsApp Web
+          return Linking.openURL(webUrl);
         }
       })
       .catch((err) => console.error("Error al abrir WhatsApp", err));
@@ -44,7 +44,7 @@ const TicketDetailsScreen = ({ route }) => {
       </View>
       <TouchableOpacity
         style={styles.chatButton}
-        onPress={() => openWhatsApp('526631646442', `Hola, tengo una consulta sobre el ticket #${ticket.id}`)}
+        onPress={() => openWhatsApp('526631646442', '')}
       >
         <Text style={styles.chatButtonText}>Chat</Text>
       </TouchableOpacity>
