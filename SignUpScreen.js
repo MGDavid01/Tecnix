@@ -1,7 +1,9 @@
 import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
+import "./firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
 
 const SignUpScreen = () => {
   const [firstName, setFirstName] = useState("");
@@ -13,6 +15,22 @@ const SignUpScreen = () => {
   const [showPassword, setShowPassword] = useState(false);
   
   const navigation = useNavigation();
+  const auth = getAuth();
+
+  const handleSignUp = async () => {
+    if (!email || !password) {
+      Alert.alert("Error", "Please enter email and password");
+      return;
+    }
+
+    try {
+      await createUserWithEmailAndPassword(auth, email, password);
+      Alert.alert("Success", "Account created successfully!");
+      navigation.navigate("Login");
+    } catch (error) {
+      Alert.alert("Error", error.message);
+    }
+  };
 
   return (
     <View style={styles.container}>
@@ -98,15 +116,8 @@ const SignUpScreen = () => {
           </TouchableOpacity>
         </View>
 
-        <TouchableOpacity style={styles.signUpButton}>
-          <Text style={styles.signUpButtonText}>Log In</Text>
-        </TouchableOpacity>
-
-        <Text style={styles.orText}>Or</Text>
-
-        <TouchableOpacity style={styles.googleButton}>
-          <MaterialCommunityIcons name="google" size={20} color="#000" />
-          <Text style={styles.googleButtonText}>Sign up with Google</Text>
+        <TouchableOpacity style={styles.signUpButton} onPress={handleSignUp}>
+          <Text style={styles.signUpButtonText}>Sign Up</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -153,45 +164,12 @@ const styles = StyleSheet.create({
     padding: 20,
     width: "100%",
   },
-  nameContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 15,
-  },
-  halfInput: {
-    width: '48%',
-  },
   input: {
     backgroundColor: "#F5F5F5",
     borderRadius: 8,
     padding: 15,
     marginBottom: 15,
     fontSize: 16,
-  },
-  phoneContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    marginBottom: 15,
-  },
-  countryCode: {
-    backgroundColor: "#F5F5F5",
-    padding: 15,
-    borderRadius: 8,
-    marginRight: 8,
-  },
-  phoneInput: {
-    flex: 1,
-    marginBottom: 0,
-  },
-  passwordContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    backgroundColor: "#F5F5F5",
-    borderRadius: 8,
-    marginBottom: 15,
-  },
-  eyeIcon: {
-    padding: 15,
   },
   signUpButton: {
     backgroundColor: "#1a73e8",
@@ -204,27 +182,7 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontSize: 16,
     fontWeight: "bold",
-  },
-  orText: {
-    textAlign: 'center',
-    color: "#777",
-    marginVertical: 15,
-  },
-  googleButton: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'center',
-    backgroundColor: "#FFF",
-    borderRadius: 8,
-    padding: 15,
-    borderWidth: 1,
-    borderColor: "#DDD",
-  },
-  googleButtonText: {
-    marginLeft: 8,
-    fontSize: 16,
-    fontWeight: "500",
-  },
+  }
 });
 
 export default SignUpScreen;
