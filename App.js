@@ -1,7 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';
-                                        
+import { View, Text, StyleSheet } from 'react-native';                
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -38,7 +37,6 @@ function HomeScreen3() {
     </View>
   );
 }
-
 
 function TicketsScreen() {
   return (
