@@ -29,7 +29,6 @@ function HomeScreenTec() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
-      
     </View>
   );
   
@@ -72,6 +71,14 @@ function FeedbackScreen() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Reports</Text>
+    </View>
+  );
+}
+
+function LocalsScreen() {
+  return (
+    <View style={styles.screenContainer}>
+      <Text style={styles.textMain}>Locals</Text>
     </View>
   );
 }
@@ -119,6 +126,7 @@ const obtenerPantallasUsuario = (tipoUser) => {
       return [
         { name: "HomeTec", component: HomeScreenTec, title: "Home" },
         { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
+        { name: "Locals", component: LocalsScreen, title: "Locals" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
         { name: "Users", component: Users, title: "Users" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
