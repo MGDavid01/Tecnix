@@ -1,6 +1,7 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';
+import { useState, useEffect } from "react";
 import { NavigationContainer } from '@react-navigation/native';                                           
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
@@ -11,18 +12,27 @@ import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
 import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
+import UsersScreen from './components/UserScreen';
+
+
+
+import { db } from "./firebaseConfig";
+import { collection, getDocs } from "firebase/firestore";
 
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
+
 
 // Pantallas de la aplicación
 function HomeScreenTec() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
+      
     </View>
   );
+  
 }
 
 function HomeScreenEmp() {
@@ -92,6 +102,16 @@ function makeTicketOption(){
   );
 }
 
+
+//Funcion para ir a la seccion de visualizar usuarios
+function Users(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="Users" component={UsersScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
 // Mostrar herramientas dependiendo el tipo de usuario
 const obtenerPantallasUsuario = (tipoUser) => {
   switch (tipoUser) {
@@ -100,6 +120,7 @@ const obtenerPantallasUsuario = (tipoUser) => {
         { name: "HomeTec", component: HomeScreenTec, title: "Home" },
         { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
+        { name: "Users", component: Users, title: "Users" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
       ];
     case 2:
