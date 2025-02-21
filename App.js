@@ -13,6 +13,7 @@ import TicketDetailsScreen from './components/TicketDetailsScreen';
 import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
 import UsersScreen from './components/UserScreen';
+import LocationScreen from './components/LocationScreen';
 
 
 
@@ -75,11 +76,11 @@ function FeedbackScreen() {
   );
 }
 
-function LocalsScreen() {
+function LocationsScreen() {
   return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Locals</Text>
-    </View>
+    <Stack.Navigator>
+      <Stack.Screen name="Ticket history" component={LocationScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
   );
 }
 
@@ -126,7 +127,7 @@ const obtenerPantallasUsuario = (tipoUser) => {
       return [
         { name: "HomeTec", component: HomeScreenTec, title: "Home" },
         { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Locals", component: LocalsScreen, title: "Locals" },
+        { name: "Locals", component: LocationsScreen, title: "Locals" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
         { name: "Users", component: Users, title: "Users" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
