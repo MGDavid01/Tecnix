@@ -12,6 +12,7 @@ import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
 import UsersScreen from './components/UserScreen';
 import LocationScreen from './components/LocationScreen';
+import LocationDetailScreen from './components/LocationDetailScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
@@ -46,7 +47,7 @@ function HomeScreenJefe() {
 function TicketsScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Pending Tickets" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
     </Stack.Navigator>
   );
@@ -71,7 +72,8 @@ function FeedbackScreen() {
 function LocationsScreen() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Ticket history" component={LocationScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="LocationsTec" component={LocationScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Location Detail" component={LocationDetailScreen} />
     </Stack.Navigator>
   );
 }
@@ -96,9 +98,7 @@ function viewTicketHistory(){
 //Funcion para ir a la seccion de creacion de tickets
 function makeTicketOption(){
   return(
-    <Stack.Navigator>
       <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
-    </Stack.Navigator>
   );
 }
 
@@ -119,7 +119,7 @@ const obtenerPantallasUsuario = (tipoUser) => {
       return [
         { name: "HomeTec", component: HomeScreenTec, title: "Home" },
         { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Locals", component: LocationsScreen, title: "Locals" },
+        { name: "LocationsTec", component: LocationsScreen, title: "Locations" },
         { name: "Reports", component: ReportsScreen, title: "Reports" },
         { name: "Users", component: Users, title: "Users" },
         { name: "Setting", component: SettingScreen, title: "Setting" }
