@@ -10,7 +10,7 @@ const LocationScreen = () => {
 
   useEffect(() => {
     const fetchLocations = async () => {
-      const locationCollection = await getDocs(collection(db, 'Location'));
+      const locationCollection = await getDocs(collection(db, 'Locations'));
       const locationsList = locationCollection.docs.map(doc => doc.data());
       setLocations(locationsList);
     };
@@ -21,11 +21,11 @@ const LocationScreen = () => {
   const renderItem = ({ item }) => (
     <View style={styles.itemContainer}>
       <Text style={styles.itemText}>Name: {item.nameLocal}</Text>
-      <Text style={styles.itemText}>Neighborhood: {item.neighborhood}</Text>
-      <Text style={styles.itemText}>Phone: {item.phone}</Text>
-      <Text style={styles.itemText}>Status: {item.statusLocal.path}</Text>
+      <Text style={styles.itemText}>Settlement: {item.settlement}</Text>
+      <Text style={styles.itemText}>Phone: {item.phoneNumber}</Text>
+      <Text style={styles.itemText}>Status: {item.status.path}</Text>
       <Text style={styles.itemText}>Street: {item.street}</Text>
-      <Text style={styles.itemText}>Street Number: {item.streetNumber}</Text>
+      <Text style={styles.itemText}>Opening Hours: {item.openingHours}</Text>
     </View>
   );
 

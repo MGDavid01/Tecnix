@@ -19,7 +19,5 @@ const auth = getAuth(app);
 //constante de db para el uso de la base de datos
 const db = getFirestore(app);
 
-export { auth };
-
-//Exportacion de db
-export { db };
+//exportacion de la db y auth
+export { auth, db };

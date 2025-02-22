@@ -1,8 +1,6 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';
-import { useState, useEffect } from "react";
-import { NavigationContainer } from '@react-navigation/native';                                           
+import { View, Text, StyleSheet } from 'react-native';                                      
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -14,12 +12,6 @@ import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
 import UsersScreen from './components/UserScreen';
 import LocationScreen from './components/LocationScreen';
-
-
-
-import { db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-
 
 const Drawer = createDrawerNavigator();
 const Stack = createStackNavigator();
