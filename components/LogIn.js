@@ -17,6 +17,7 @@ const Login = () => {
   const handleLogIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      //Por lo mientras siempre va a redirigir a la pantalla de Home
       navigation.navigate("Home", {loggedIn: true});
     } catch (error) {
       Alert.alert("Login Failed", error.message);

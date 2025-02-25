@@ -157,6 +157,8 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+            {/* Aqui se agrega el componente temporal, aun no logro que si inicia
+            correctamente me muestre 1 u otro tipo de contenido */}
             <Stack.Screen name="Home" component={Users} options={{ headerShown: false }}/>
           </Stack.Navigator>
         </NavigationContainer>
