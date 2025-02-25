@@ -1,10 +1,11 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';                                      
+import { View, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
 
+import { AuthProvider, AuthContext } from './context/AuthContext';
 import FontsTexts from "./components/FontsTexts";
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
@@ -19,8 +20,6 @@ import SignUp from './components/SignUp';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-
-// Pantallas de la aplicación
 function HomeScreenTec() {
   return (
     <View style={styles.screenContainer}>
@@ -87,7 +86,6 @@ function SettingScreen() {
   );
 }
 
-//Funcion para ir a la seccion de historial de tickets
 function viewTicketHistory(){
   return(
     <Stack.Navigator>
@@ -96,7 +94,6 @@ function viewTicketHistory(){
   );
 }
 
-//Funcion para ir a la seccion de creacion de tickets
 function makeTicketOption(){
   return(
     <Stack.Navigator>
@@ -105,7 +102,6 @@ function makeTicketOption(){
   );
 }
 
-//Funcion para ir a la seccion de visualizar usuarios
 function Users(){
   return(
     <Stack.Navigator>
@@ -113,7 +109,6 @@ function Users(){
     </Stack.Navigator>
   );
 }
-
 
 function getDrawerScreens(tipoUser) {
   switch (tipoUser) {
@@ -147,9 +142,11 @@ function getDrawerScreens(tipoUser) {
   }
 }
 
-export default function App() {
+function AppContent() {
+  // Se llama la variable loggedIn para saber su valor de LogIn.js
+  const { loggedIn } = useContext(AuthContext);
   const tipoUser = 2; // Simulación de tipo de usuario
-  const loggedIn = false; // Simulación de usuario logueado
+
   if (!loggedIn) {
     return (
       <FontsTexts>
@@ -157,9 +154,6 @@ export default function App() {
           <Stack.Navigator>
             <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
             <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
-            {/* Aqui se agrega el componente temporal, aun no logro que si inicia
-            correctamente me muestre 1 u otro tipo de contenido */}
-            <Stack.Screen name="Home" component={Users} options={{ headerShown: false }}/>
           </Stack.Navigator>
         </NavigationContainer>
       </FontsTexts>
@@ -178,6 +172,13 @@ export default function App() {
   );
 }
 
+export default function App() {
+  return (
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
+  );
+}
 
 const styles = StyleSheet.create({
   content: {

@@ -1,9 +1,10 @@
-import React, { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import React, { useState, useContext } from "react";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
+import { AuthContext } from '../context/AuthContext';
 import FontsTexts from './FontsTexts';
 import "../firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
 
@@ -11,16 +12,19 @@ const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [showPassword, setShowPassword] = useState(false);
+  const [error, setError] = useState(null);
   const navigation = useNavigation();
   const auth = getAuth();
+  const { setLoggedIn } = useContext(AuthContext);
 
   const handleLogIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
+      setLoggedIn(true); // Actualiza el estado de autenticación
       //Por lo mientras siempre va a redirigir a la pantalla de Home
-      navigation.navigate("Home", {loggedIn: true});
+      navigation.navigate("Home");
     } catch (error) {
-      Alert.alert("Login Failed", error.message);
+      setError("Invalid email or password");
     }
   };
 
@@ -36,6 +40,8 @@ const Login = () => {
         </View>
         <Text style={[styles.text, styles.title]}>Sign in to your Account</Text>
         <Text style={[styles.text, styles.subtitle]}>Enter your email and password to log in</Text>
+
+        {error && <Text style={styles.errorText}>{error}</Text>}
 
         <View style={styles.inputContainer}>
           <TextInput
@@ -106,6 +112,11 @@ const styles = StyleSheet.create({
     color: "#DDD",
     marginBottom: 20,
     textAlign: "center",
+  },
+  errorText: {
+    color: 'red',
+    marginBottom: 10,
+    textAlign: 'center',
   },
   inputContainer: {
     flexDirection: "row",
