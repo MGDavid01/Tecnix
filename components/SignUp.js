@@ -3,9 +3,9 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import "./firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
+import "../firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
 
-const SignUpScreen = () => {
+const SignUp = () => {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [email, setEmail] = useState("");
@@ -185,4 +185,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default SignUpScreen;
+export default SignUp;

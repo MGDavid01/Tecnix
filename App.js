@@ -2,9 +2,9 @@ import React from 'react';
 import { StatusBar } from 'expo-status-bar';
 import { View, Text, StyleSheet } from 'react-native';                                      
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-import SideMenu from './components/SideMenu';
 import FontsTexts from "./components/FontsTexts";
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
@@ -13,9 +13,11 @@ import TicketHistoryScreen from './components/TicketHistory';
 import UsersScreen from './components/UserScreen';
 import LocationScreen from './components/LocationScreen';
 import LocationDetailScreen from './components/LocationDetailScreen';
+import Login from './components/LogIn';
+import SignUp from './components/SignUp';
 
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 
 // Pantallas de la aplicación
@@ -25,7 +27,6 @@ function HomeScreenTec() {
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
     </View>
   );
-  
 }
 
 function HomeScreenEmp() {
@@ -44,7 +45,7 @@ function HomeScreenJefe() {
   );
 }
 
-function TicketsScreen() {
+function TicketsStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
@@ -69,7 +70,7 @@ function FeedbackScreen() {
   );
 }
 
-function LocationsScreen() {
+function LocationsStack() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="LocationsTec" component={LocationScreen} options={{ headerShown: false }}/>
@@ -98,10 +99,11 @@ function viewTicketHistory(){
 //Funcion para ir a la seccion de creacion de tickets
 function makeTicketOption(){
   return(
+    <Stack.Navigator>
       <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
   );
 }
-
 
 //Funcion para ir a la seccion de visualizar usuarios
 function Users(){
@@ -112,52 +114,68 @@ function Users(){
   );
 }
 
-// Mostrar herramientas dependiendo el tipo de usuario
-const obtenerPantallasUsuario = (tipoUser) => {
+
+function getDrawerScreens(tipoUser) {
   switch (tipoUser) {
     case 1:
-      return [
-        { name: "HomeTec", component: HomeScreenTec, title: "Home" },
-        { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "LocationsTec", component: LocationsScreen, title: "Locations" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Users", component: Users, title: "Users" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenTec} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+        </>
+      );
     case 2:
-      return [
-        { name: "HomeJefe", component: HomeScreenEmp, title: "Home" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Feedback", component: FeedbackScreen, title: "Feedback" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenEmp} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+        </>
+      );
     case 3:
-      return [
-        { name: "HomeEmp", component: HomeScreenJefe, title: "Home" },
-        { name: "PendingTicketsJefe", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Make a ticket", component: makeTicketOption, title: "Make a ticket" },
-        { name: "Ticket history", component: viewTicketHistory, title: "Ticket history" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenJefe} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Users" component={UsersScreen} />
+        </>
+      );
     default:
-      return [];
+      return null;
   }
-};
+}
 
-export default function App({ tipoUser }) {
-  const screens = obtenerPantallasUsuario(tipoUser);
+export default function App() {
+  const tipoUser = 2; // Simulación de tipo de usuario
+  const loggedIn = false; // Simulación de usuario logueado
+  if (!loggedIn) {
+    return (
+      <FontsTexts>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+            <Stack.Screen name="Home" component={Users} options={{ headerShown: false }}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FontsTexts>
+    );
+  }
 
   return (
     <FontsTexts>
-      <Drawer.Navigator initialRouteName={screens.name} drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
-        {screens.map((screen) => (
-          <Drawer.Screen key={screen.name} name={screen.title} component={screen.component} />
-        ))}
-      </Drawer.Navigator>
-      <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          {getDrawerScreens(tipoUser)}
+        </Drawer.Navigator>
+        <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
+      </NavigationContainer>
     </FontsTexts>
   );
 }
+
 
 const styles = StyleSheet.create({
   content: {

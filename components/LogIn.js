@@ -4,8 +4,8 @@ import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
 import { getAuth, signInWithEmailAndPassword } from "firebase/auth";
-import FontsTexts from './components/FontsTexts';
-import "./firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
+import FontsTexts from './FontsTexts';
+import "../firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
 
 const Login = () => {
   const [email, setEmail] = useState("");
@@ -17,7 +17,7 @@ const Login = () => {
   const handleLogIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      navigation.navigate("Dashboard");
+      navigation.navigate("Home", {loggedIn: true});
     } catch (error) {
       Alert.alert("Login Failed", error.message);
     }
