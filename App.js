@@ -16,6 +16,9 @@ import LocationScreen from './components/LocationScreen';
 import LocationDetailScreen from './components/LocationDetailScreen';
 import Login from './components/LogIn';
 import SignUp from './components/SignUp';
+import ReportsScreen from './components/ReportsScreen';
+import FeedbackScreen from './components/FeedbackScreen';
+import SettingScreen from './components/SettingScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -53,22 +56,6 @@ function TicketsStack() {
   );
 }
 
-function ReportsScreen() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Reports</Text>
-    </View>
-  );
-}
-
-function FeedbackScreen() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Reports</Text>
-    </View>
-  );
-}
-
 function LocationsStack() {
   return (
     <Stack.Navigator>
@@ -78,13 +65,6 @@ function LocationsStack() {
   );
 }
 
-function SettingScreen() {
-  return (
-    <View style={styles.screenContainer}>
-     <Text style={styles.textMain}>Settings</Text>
-    </View>
-  );
-}
 
 function viewTicketHistory(){
   return(
@@ -125,7 +105,6 @@ function getDrawerScreens(tipoUser) {
         <>
           <Drawer.Screen name="Home" component={HomeScreenEmp} />
           <Drawer.Screen name="Tickets" component={TicketsStack} />
-          <Drawer.Screen name="Locations" component={LocationsStack} />
         </>
       );
     case 3:
@@ -145,7 +124,7 @@ function getDrawerScreens(tipoUser) {
 function AppContent() {
   // Se llama la variable loggedIn para saber su valor de LogIn.js
   const { loggedIn } = useContext(AuthContext);
-  const tipoUser = 2; // Simulación de tipo de usuario
+  const tipoUser = 1; // Simulación de tipo de usuario
 
   if (!loggedIn) {
     return (
