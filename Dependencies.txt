@@ -1,6 +1,2 @@
 npm install
 npm install expo
-
-Por si acaso
-
-npm install @react-navigation/native @react-navigation/stack
