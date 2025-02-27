@@ -79,7 +79,6 @@ const TicketScreen = () => {
 
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.title}>Pending Tickets</Text>
       <FlatList
         data={tickets}
         keyExtractor={(item) => item.id}

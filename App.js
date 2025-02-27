@@ -1,27 +1,24 @@
 import React from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';
-import { useState, useEffect } from "react";
-import { NavigationContainer } from '@react-navigation/native';                                           
+import { View, Text, StyleSheet } from 'react-native';                                      
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
 
-import SideMenu from './components/SideMenu';
 import FontsTexts from "./components/FontsTexts";
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
 import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
 import UsersScreen from './components/UserScreen';
-
-
-
-import { db } from "./firebaseConfig";
-import { collection, getDocs } from "firebase/firestore";
-
+import LocationScreen from './components/LocationScreen';
+import LocationDetailScreen from './components/LocationDetailScreen';
+import Login from './components/LogIn';
+import SignUp from './components/SignUp';
+import WatchTicketsScreen from './components/WatchTicketsScreen';
 
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
 
 // Pantallas de la aplicación
@@ -29,10 +26,8 @@ function HomeScreenTec() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
-      
     </View>
   );
-  
 }
 
 function HomeScreenEmp() {
@@ -51,10 +46,10 @@ function HomeScreenJefe() {
   );
 }
 
-function TicketsScreen() {
+function TicketsStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Pending Tickets" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
     </Stack.Navigator>
   );
@@ -73,6 +68,15 @@ function FeedbackScreen() {
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Reports</Text>
     </View>
+  );
+}
+
+function LocationsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="LocationsTec" component={LocationScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Location Detail" component={LocationDetailScreen} />
+    </Stack.Navigator>
   );
 }
 
@@ -102,7 +106,6 @@ function makeTicketOption(){
   );
 }
 
-
 //Funcion para ir a la seccion de visualizar usuarios
 function Users(){
   return(
@@ -112,51 +115,79 @@ function Users(){
   );
 }
 
-// Mostrar herramientas dependiendo el tipo de usuario
-const obtenerPantallasUsuario = (tipoUser) => {
+//Funcion para ver los tickets hechos por los usuarios
+function watchTickets(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="watchTickets" component={WatchTicketsScreen} options={{ headerShown: false}}/>
+    </Stack.Navigator>
+  );
+}
+
+
+function getDrawerScreens(tipoUser) {
   switch (tipoUser) {
     case 1:
-      return [
-        { name: "HomeTec", component: HomeScreenTec, title: "Home" },
-        { name: "PendingTicketsTec", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Users", component: Users, title: "Users" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenTec} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+        </>
+      );
     case 2:
-      return [
-        { name: "HomeJefe", component: HomeScreenEmp, title: "Home" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Feedback", component: FeedbackScreen, title: "Feedback" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenEmp} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+        </>
+      );
     case 3:
-      return [
-        { name: "HomeEmp", component: HomeScreenJefe, title: "Home" },
-        { name: "PendingTicketsJefe", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Make a ticket", component: makeTicketOption, title: "Make a ticket" },
-        { name: "Ticket history", component: viewTicketHistory, title: "Ticket history" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenJefe} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Users" component={UsersScreen} />
+        </>
+      );
     default:
-      return [];
+      return null;
   }
-};
+}
 
-export default function App({ tipoUser }) {
-  const screens = obtenerPantallasUsuario(tipoUser);
+export default function App() {
+  const tipoUser = 1; // Simulación de tipo de usuario
+  const loggedIn = false; // Simulación de usuario logueado
+  if (!loggedIn) {
+    return (
+      <FontsTexts>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+            {/* Aqui se agrega el componente temporal, aun no logro que si inicia
+            correctamente me muestre 1 u otro tipo de contenido */}
+            <Stack.Screen name="Home" component={WatchTicketsScreen} options={{ headerShown: false }}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FontsTexts>
+    );
+  }
 
   return (
     <FontsTexts>
-      <Drawer.Navigator initialRouteName={screens.name} drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
-        {screens.map((screen) => (
-          <Drawer.Screen key={screen.name} name={screen.title} component={screen.component} />
-        ))}
-      </Drawer.Navigator>
-      <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home">
+          {getDrawerScreens(tipoUser)}
+        </Drawer.Navigator>
+        <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
+      </NavigationContainer>
     </FontsTexts>
   );
 }
+
 
 const styles = StyleSheet.create({
   content: {
