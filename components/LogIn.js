@@ -21,8 +21,6 @@ const Login = () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
       setLoggedIn(true); // Actualiza el estado de autenticación
-      //Por lo mientras siempre va a redirigir a la pantalla de Home
-      navigation.navigate("Home");
     } catch (error) {
       setError("Invalid email or password");
     }

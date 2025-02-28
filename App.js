@@ -4,6 +4,8 @@ import { View, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import FontsTexts from "./components/FontsTexts";
@@ -23,35 +25,14 @@ import SettingScreen from './components/SettingScreen';
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-function HomeScreenTec() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
-    </View>
-  );
-}
 
-function HomeScreenEmp() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 2</Text>
-    </View>
-  );
-}
 
-function HomeScreenJefe() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 3</Text>
-    </View>
-  );
-}
-
-function TicketsStack() {
+function TicketsStackTec() {
   return (
     <Stack.Navigator>
       <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
       <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
+      <Stack.Screen name="History" component={TicketHistoryScreen} />
     </Stack.Navigator>
   );
 }
@@ -65,14 +46,6 @@ function LocationsStack() {
   );
 }
 
-
-function viewTicketHistory(){
-  return(
-    <Stack.Navigator>
-      <Stack.Screen name="Ticket history" component={TicketHistoryScreen} options={{ headerShown: false }}/>
-    </Stack.Navigator>
-  );
-}
 
 function makeTicketOption(){
   return(
@@ -96,7 +69,7 @@ function getDrawerScreens(tipoUser) {
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenTec} />
-          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
           <Drawer.Screen name="Locations" component={LocationsStack} />
         </>
       );
@@ -104,14 +77,14 @@ function getDrawerScreens(tipoUser) {
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenEmp} />
-          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
         </>
       );
     case 3:
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenJefe} />
-          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
           <Drawer.Screen name="Locations" component={LocationsStack} />
           <Drawer.Screen name="Users" component={UsersScreen} />
         </>
@@ -151,6 +124,63 @@ function AppContent() {
   );
 }
 
+function HomeScreenTec() {
+  const navigation = useNavigation();
+  const cardTitles = [
+      "Notificaciones",
+      "Calendario de Tareas",
+      "Estadísticas Rápidas",
+    ];
+
+  const cardContents = [
+      ["- Nuevo ticket asignado: #1234", "- Actualización importante en ticket #5678"],
+      ["- 10/10/2023: Resolver ticket #1234", "- 12/10/2023: Revisión de ticket #5678"],
+      ["- Tickets resueltos: 15", "- Tickets en progreso: 5", "- Tiempo promedio de solucion: 25mins"],
+    ];
+  const cardNavigate = [
+      "Notifications",
+      "Calendar",
+      "Statistics",
+    ];
+  return (
+    <View style={styles.screenContainer}>
+      <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
+      {cardTitles.map((title, i) => (
+        <View key={i} style={styles.card}>
+          <View style={styles.containerTopCard}>
+            <Text style={styles.cardTitle}>{title}</Text>
+            {/*navigation.navigate(cardNavigate[i]) para utilizar cardNavigate
+             pero por ahora se mandara algo a consola para saber
+             que se presiono el boton*/}
+            <TouchableOpacity style={styles.view} onPress={() => console.log("Presionado")}>
+              <Text style={styles.viewText}>Ver más</Text>
+            </TouchableOpacity>
+          </View>
+          {cardContents[i].map((content, i) => (
+            <Text key={i} style={styles.cardContent}>{content}</Text>
+          ))}
+        </View>
+      ))}
+    </View>
+  );
+}
+
+function HomeScreenEmp() {
+  return (
+    <View style={styles.screenContainer}>
+      <Text style={styles.textMain}>Bienvenido Usuario Tipo 2</Text>
+    </View>
+  );
+}
+
+function HomeScreenJefe() {
+  return (
+    <View style={styles.screenContainer}>
+      <Text style={styles.textMain}>Bienvenido Usuario Tipo 3</Text>
+    </View>
+  );
+}
+
 export default function App() {
   return (
     <AuthProvider>
@@ -178,5 +208,49 @@ const styles = StyleSheet.create({
     margin: 20,
     paddingTop: 10,
     color:"#2E2E2E",
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 8,
+    width: '90%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  containerTopCard: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFC107",
+  },
+  cardTitle: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 20,
+    color: "#2E2E2E",
+  },
+  view: {
+    width: "10%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    width: 80,
+    borderRadius: 3,
+  },
+  viewText: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 16,
+    color: "#1E3A8A",
+  },
+  cardContent: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
+    color: "#2E2E2E",
   },
 });
