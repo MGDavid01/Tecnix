@@ -36,6 +36,9 @@ const CustomDrawerContent = (props) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>TECNIX</Text>
       </View>
+      {/* Se renderizan todas las pantallas que estan dentro
+        de Drawer.Navigator pasado atraves de ...props
+      */}
       <DrawerItemList {...props} />
       <DrawerItem
         label="Log Out"
