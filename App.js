@@ -22,6 +22,7 @@ import ReportsScreen from './components/ReportsScreen';
 import FeedbackScreen from './components/FeedbackScreen';
 import SettingScreen from './components/SettingScreen';
 import CustomDrawerContent from './components/CustomDrawerContent';
+import WatchTicketsScreen from './components/WatchTicketsScreen';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -57,6 +58,15 @@ function Users(){
   return (
     <Stack.Navigator>
       <Stack.Screen name="Users" component={UsersScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
+//Funcion para ver los tickets hechos por los usuarios
+function watchTickets(){
+  return(
+    <Stack.Navigator>
+      <Stack.Screen name="watchTickets" component={WatchTicketsScreen} options={{ headerShown: false}}/>
     </Stack.Navigator>
   );
 }
@@ -182,6 +192,7 @@ export default function App() {
     </AuthProvider>
   );
 }
+
 
 const styles = StyleSheet.create({
   content: {
