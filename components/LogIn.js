@@ -15,12 +15,12 @@ const Login = () => {
   const [error, setError] = useState(null);
   const navigation = useNavigation();
   const auth = getAuth();
-  const { setLoggedIn } = useContext(AuthContext);
+  const { logIn } = useContext(AuthContext);
 
   const handleLogIn = async () => {
     try {
       await signInWithEmailAndPassword(auth, email, password);
-      setLoggedIn(true); // Actualiza el estado de autenticación
+      logIn(); // Actualiza el estado de autenticación
     } catch (error) {
       setError("Invalid email or password");
     }

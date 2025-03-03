@@ -21,11 +21,10 @@ import SignUp from './components/SignUp';
 import ReportsScreen from './components/ReportsScreen';
 import FeedbackScreen from './components/FeedbackScreen';
 import SettingScreen from './components/SettingScreen';
+import CustomDrawerContent from './components/CustomDrawerContent';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
-
-
 
 function TicketsStackTec() {
   return (
@@ -46,9 +45,8 @@ function LocationsStack() {
   );
 }
 
-
 function makeTicketOption(){
-  return(
+  return (
     <Stack.Navigator>
       <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
@@ -56,7 +54,7 @@ function makeTicketOption(){
 }
 
 function Users(){
-  return(
+  return (
     <Stack.Navigator>
       <Stack.Screen name="Users" component={UsersScreen} options={{ headerShown: false }}/>
     </Stack.Navigator>
@@ -77,7 +75,7 @@ function getDrawerScreens(tipoUser) {
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenEmp} />
-          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
+          <Drawer.Screen name="Tickets" component={makeTicketOption} />
         </>
       );
     case 3:
@@ -95,7 +93,6 @@ function getDrawerScreens(tipoUser) {
 }
 
 function AppContent() {
-  // Se llama la variable loggedIn para saber su valor de LogIn.js
   const { loggedIn } = useContext(AuthContext);
   const tipoUser = 1; // Simulación de tipo de usuario
 
@@ -115,7 +112,7 @@ function AppContent() {
   return (
     <FontsTexts>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home">
+        <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
           {getDrawerScreens(tipoUser)}
         </Drawer.Navigator>
         <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
@@ -149,9 +146,6 @@ function HomeScreenTec() {
         <View key={i} style={styles.card}>
           <View style={styles.containerTopCard}>
             <Text style={styles.cardTitle}>{title}</Text>
-            {/*navigation.navigate(cardNavigate[i]) para utilizar cardNavigate
-             pero por ahora se mandara algo a consola para saber
-             que se presiono el boton*/}
             <TouchableOpacity style={styles.view} onPress={() => console.log("Presionado")}>
               <Text style={styles.viewText}>Ver más</Text>
             </TouchableOpacity>
