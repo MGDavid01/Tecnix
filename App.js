@@ -1,28 +1,165 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';                
+import { View, Text, StyleSheet } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
-import { createStackNavigator } from '@react-navigation/stack';
+import { createNativeStackNavigator } from '@react-navigation/native-stack';
+import { NavigationContainer } from '@react-navigation/native';
+import { TouchableOpacity } from 'react-native';
+import { useNavigation } from '@react-navigation/native';
 
-import SideMenu from './components/SideMenu';
+import { AuthProvider, AuthContext } from './context/AuthContext';
 import FontsTexts from "./components/FontsTexts";
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
-
+import MakeTicketScreen from './components/makeTicketScreen';
+import TicketHistoryScreen from './components/TicketHistory';
+import UsersScreen from './components/UserScreen';
+import LocationScreen from './components/LocationScreen';
+import LocationDetailScreen from './components/LocationDetailScreen';
+import Login from './components/LogIn';
+import SignUp from './components/SignUp';
+import ReportsScreen from './components/ReportsScreen';
+import FeedbackScreen from './components/FeedbackScreen';
+import SettingScreen from './components/SettingScreen';
+import CustomDrawerContent from './components/CustomDrawerContent';
 
 const Drawer = createDrawerNavigator();
-const Stack = createStackNavigator();
+const Stack = createNativeStackNavigator();
 
-// Pantallas de la aplicación
-function HomeScreen1() {
+function TicketsStackTec() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
+      <Stack.Screen name="History" component={TicketHistoryScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function LocationsStack() {
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="LocationsTec" component={LocationScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Location Detail" component={LocationDetailScreen} />
+    </Stack.Navigator>
+  );
+}
+
+function makeTicketOption(){
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
+function Users(){
+  return (
+    <Stack.Navigator>
+      <Stack.Screen name="Users" component={UsersScreen} options={{ headerShown: false }}/>
+    </Stack.Navigator>
+  );
+}
+
+function getDrawerScreens(tipoUser) {
+  switch (tipoUser) {
+    case 1:
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenTec} />
+          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+        </>
+      );
+    case 2:
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenEmp} />
+          <Drawer.Screen name="Tickets" component={makeTicketOption} />
+        </>
+      );
+    case 3:
+      return (
+        <>
+          <Drawer.Screen name="Home" component={HomeScreenJefe} />
+          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Users" component={UsersScreen} />
+        </>
+      );
+    default:
+      return null;
+  }
+}
+
+function AppContent() {
+  const { loggedIn } = useContext(AuthContext);
+  const tipoUser = 1; // Simulación de tipo de usuario
+
+  if (!loggedIn) {
+    return (
+      <FontsTexts>
+        <NavigationContainer>
+          <Stack.Navigator>
+            <Stack.Screen name="Login" component={Login} options={{ headerShown: false }}/>
+            <Stack.Screen name="SignUp" component={SignUp} options={{ headerShown: false }}/>
+          </Stack.Navigator>
+        </NavigationContainer>
+      </FontsTexts>
+    );
+  }
+
+  return (
+    <FontsTexts>
+      <NavigationContainer>
+        <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
+          {getDrawerScreens(tipoUser)}
+        </Drawer.Navigator>
+        <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
+      </NavigationContainer>
+    </FontsTexts>
+  );
+}
+
+function HomeScreenTec() {
+  const navigation = useNavigation();
+  const cardTitles = [
+      "Notificaciones",
+      "Calendario de Tareas",
+      "Estadísticas Rápidas",
+    ];
+
+  const cardContents = [
+      ["- Nuevo ticket asignado: #1234", "- Actualización importante en ticket #5678"],
+      ["- 10/10/2023: Resolver ticket #1234", "- 12/10/2023: Revisión de ticket #5678"],
+      ["- Tickets resueltos: 15", "- Tickets en progreso: 5", "- Tiempo promedio de solucion: 25mins"],
+    ];
+  const cardNavigate = [
+      "Notifications",
+      "Calendar",
+      "Statistics",
+    ];
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
+      {cardTitles.map((title, i) => (
+        <View key={i} style={styles.card}>
+          <View style={styles.containerTopCard}>
+            <Text style={styles.cardTitle}>{title}</Text>
+            <TouchableOpacity style={styles.view} onPress={() => console.log("Presionado")}>
+              <Text style={styles.viewText}>Ver más</Text>
+            </TouchableOpacity>
+          </View>
+          {cardContents[i].map((content, i) => (
+            <Text key={i} style={styles.cardContent}>{content}</Text>
+          ))}
+        </View>
+      ))}
     </View>
   );
 }
 
-function HomeScreen2() {
+function HomeScreenEmp() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 2</Text>
@@ -30,7 +167,7 @@ function HomeScreen2() {
   );
 }
 
-function HomeScreen3() {
+function HomeScreenJefe() {
   return (
     <View style={styles.screenContainer}>
       <Text style={styles.textMain}>Bienvenido Usuario Tipo 3</Text>
@@ -38,70 +175,11 @@ function HomeScreen3() {
   );
 }
 
-function TicketsScreen() {
+export default function App() {
   return (
-    <Stack.Navigator>
-      <Stack.Screen name="Pending Tickets" component={TicketScreen} options={{ headerShown: false }} />
-      <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
-    </Stack.Navigator>
-  );
-}
-
-function ReportsScreen() {
-  return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Reports</Text>
-    </View>
-  );
-}
-
-function SettingScreen() {
-  return (
-    <View style={styles.screenContainer}>
-     <Text style={styles.textMain}>Settings</Text>
-    </View>
-  );
-}
-
-// Mostrar herramientas dependiendo el tipo de usuario
-const obtenerPantallasUsuario = (tipoUser) => {
-  switch (tipoUser) {
-    case 1:
-      return [
-        { name: "Home", component: HomeScreen1, title: "Home" },
-        { name: "Pending Tickets", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
-    case 2:
-      return [
-        { name: "Home", component: HomeScreen2, title: "Home" },
-        { name: "Reports", component: ReportsScreen, title: "Reports" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
-    case 3:
-      return [
-        { name: "Home", component: HomeScreen3, title: "Home" },
-        { name: "Pending Tickets", component: TicketsScreen, title: "Pending Tickets" },
-        { name: "Setting", component: SettingScreen, title: "Setting" }
-      ];
-    default:
-      return [];
-  }
-};
-
-export default function App({ tipoUser }) {
-  const screens = obtenerPantallasUsuario(tipoUser);
-
-  return (
-    <FontsTexts>
-      <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <SideMenu {...props} screens={screens} />}>
-        {screens.map((screen) => (
-          <Drawer.Screen key={screen.name} name={screen.name} component={screen.component} />
-        ))}
-      </Drawer.Navigator>
-      <StatusBar style="auto" translucent={false} backgroundColor='#faec5c'/>
-    </FontsTexts>
+    <AuthProvider>
+      <AppContent />
+    </AuthProvider>
   );
 }
 
@@ -124,5 +202,49 @@ const styles = StyleSheet.create({
     margin: 20,
     paddingTop: 10,
     color:"#2E2E2E",
+  },
+  card: {
+    backgroundColor: '#fff',
+    borderRadius: 8,
+    padding: 16,
+    marginVertical: 8,
+    width: '90%',
+    shadowColor: '#000',
+    shadowOffset: { width: 0, height: 2 },
+    shadowOpacity: 0.1,
+    shadowRadius: 8,
+    elevation: 4,
+  },
+  containerTopCard: {
+    width: "100%",
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingBottom: 10,
+    borderBottomWidth: 1,
+    borderBottomColor: "#FFC107",
+  },
+  cardTitle: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 20,
+    color: "#2E2E2E",
+  },
+  view: {
+    width: "10%",
+    alignItems: "center",
+    justifyContent: "center",
+    height: 30,
+    width: 80,
+    borderRadius: 3,
+  },
+  viewText: {
+    fontFamily: "Poppins-Bold",
+    fontSize: 16,
+    color: "#1E3A8A",
+  },
+  cardContent: {
+    fontFamily: "Poppins-Regular",
+    fontSize: 16,
+    color: "#2E2E2E",
   },
 });
