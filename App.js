@@ -63,7 +63,7 @@ function Users(){
 }
 
 //Funcion para ver los tickets hechos por los usuarios
-function watchTickets(){
+function WatchTickets(){
   return(
     <Stack.Navigator>
       <Stack.Screen name="watchTickets" component={WatchTicketsScreen} options={{ headerShown: false}}/>
