@@ -1,9 +1,10 @@
-import React, { useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput } from 'react-native';
+import React, { useContext, useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
 import { getFirestore, collection, getDocs } from 'firebase/firestore';
 import { useNavigation } from '@react-navigation/native';
-import FontsTexts from './FontsTexts';
 import "../firebaseConfig";
+import FontsTexts from './FontsTexts';
+import { LocationContext } from '../context/LocationContext';
 
 const LocationScreen = () => {
   const [locations, setLocations] = useState([]);
@@ -12,6 +13,7 @@ const LocationScreen = () => {
   const db = getFirestore();
   const navigation = useNavigation();
 
+  const { setLocation } = useContext(LocationContext);
   useEffect(() => {
     const fetchLocations = async () => {
       const locationCollection = await getDocs(collection(db, 'Locations'));
@@ -31,6 +33,11 @@ const LocationScreen = () => {
     setFilteredLocations(filtered);
   };
 
+  const handleLocationSelect = (location) => {
+    setLocation(location);
+    navigation.navigate('Location Detail');
+  };
+  
   const renderItem = ({ item }) => (
     <View style={styles.card}>
       <Text style={styles.title}>{item.nameLocal}</Text>
@@ -39,7 +46,7 @@ const LocationScreen = () => {
       <Text style={styles.itemText}>Status: {item.status.path}</Text>
       <TouchableOpacity
         style={styles.button}
-        onPress={() => navigation.navigate('Location Detail', { location: item })}
+        onPress={() => handleLocationSelect(item)}
       >
         <Text style={styles.buttonText}>View More</Text>
       </TouchableOpacity>
@@ -48,20 +55,21 @@ const LocationScreen = () => {
 
   return (
     <FontsTexts>
-      <View style={styles.screenContainer}>
+      <SafeAreaView style={styles.screenContainer}>
         <TextInput
           style={styles.searchBar}
           placeholder="Search by name"
           value={search}
           onChangeText={handleSearch}
         />
+        
         <FlatList
+          style={styles.listContainer}
           data={filteredLocations}
           renderItem={renderItem}
           keyExtractor={(item, index) => index.toString()}
-          contentContainerStyle={styles.listContainer}
         />
-      </View>
+      </SafeAreaView>
     </FontsTexts>
   );
 };
@@ -76,13 +84,17 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
   searchBar: {
-    height: 40,
+    height: "5%",
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
     marginBottom: 20,
     width: '100%',
+  },
+  listContainer: {
+    width: "100%",
+    height: "95%",
   },
   title: {
     fontSize: 24,
