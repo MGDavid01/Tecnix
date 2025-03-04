@@ -2,12 +2,12 @@ npm install expo
 
 nuevos comandos
 
-si usas npm
+SI USAS NPM
 
 rm -rf node_modules package-lock.json
 npm install
 
-Si usas yarn:
+SI USAS YARN:
 
 rm -rf node_modules yarn.lock
 yarn install
