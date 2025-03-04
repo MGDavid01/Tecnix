@@ -131,6 +131,10 @@ function AppContent() {
   );
 }
 
+function Dashboard(){
+  
+}
+
 function HomeScreenTec() {
   const navigation = useNavigation();
   const cardTitles = [
