@@ -1,2 +1,13 @@
-npm install
 npm install expo
+
+nuevos comandos
+
+si usas npm
+
+rm -rf node_modules package-lock.json
+npm install
+
+Si usas yarn:
+
+rm -rf node_modules yarn.lock
+yarn install
