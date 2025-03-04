@@ -46,7 +46,7 @@ function LocationsStack() {
   );
 }
 
-function makeTicketOption(){
+function MakeTicketOption(){
   return (
     <Stack.Navigator>
       <Stack.Screen name="Make a ticket" component={MakeTicketScreen} options={{ headerShown: false }}/>
@@ -84,18 +84,18 @@ function getDrawerScreens(tipoUser) {
     case 2:
       return (
         <>
-          <Drawer.Screen name="Home" component={HomeScreenEmp} />
-          <Drawer.Screen name="Tickets" component={makeTicketOption} />
-        </>
-      );
-    case 3:
-      return (
-        <>
           <Drawer.Screen name="Home" component={HomeScreenJefe} />
           <Drawer.Screen name="Tickets" component={TicketsStackTec} />
           <Drawer.Screen name="Locations" component={LocationsStack} />
           <Drawer.Screen name="Users" component={UsersScreen} />
         </>
+      );
+    case 3:
+      return (
+        <>
+        <Drawer.Screen name="Home" component={HomeScreenEmp} />
+        <Drawer.Screen name="Tickets" component={MakeTicketOption} />
+      </>
       );
     default:
       return null;
@@ -103,8 +103,7 @@ function getDrawerScreens(tipoUser) {
 }
 
 function AppContent() {
-  const { loggedIn } = useContext(AuthContext);
-  const tipoUser = 1; // Simulación de tipo de usuario
+  const { loggedIn, userType } = useContext(AuthContext);
 
   if (!loggedIn) {
     return (
@@ -123,7 +122,7 @@ function AppContent() {
     <FontsTexts>
       <NavigationContainer>
         <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
-          {getDrawerScreens(tipoUser)}
+          {getDrawerScreens(userType)}
         </Drawer.Navigator>
         <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
       </NavigationContainer>
@@ -131,9 +130,6 @@ function AppContent() {
   );
 }
 
-function Dashboard(){
-  
-}
 
 function HomeScreenTec() {
   const navigation = useNavigation();

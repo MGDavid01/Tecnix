@@ -54,7 +54,7 @@ const Login = () => {
         authentication.accessToken
       );
       signInWithCredential(auth, credential)
-        .then(() => navigation.navigate("Dashboard"))
+        .then(logIn(userType))
         .catch((error) => Alert.alert("Login Failed", error.message));
     }
   }, [response]);
@@ -65,8 +65,7 @@ const Login = () => {
       const userType = await checkUserRole(email);
       console.log("Tipo de usuario obtenido:", userType); // <-- Verificar valor
       if (userType) {
-        logIn(); // Actualiza el estado de autenticación
-        navigation.navigate("Dashboard", { tipoUser: userType });
+        logIn(userType); // Actualiza el estado de autenticación
       } else {
         Alert.alert("Error", "No user found in any category");
       }

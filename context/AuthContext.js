@@ -3,39 +3,38 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 
 export const AuthContext = createContext();
 
-// children se encarga de actualizar la interaz 
-// si el valor de loggedIn cambia (asi lo entendi yo)
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [userType, setUserType] = useState(null);
 
-  // useEffect se encarga de verificar si el usuario ya esta logeado
   useEffect(() => {
     const checkLoginStatus = async () => {
       const storedStatus = await AsyncStorage.getItem('loggedIn');
+      const storedUserType = await AsyncStorage.getItem('userType');
       if (storedStatus === 'true') {
         setLoggedIn(true);
+        setUserType(parseInt(storedUserType, 10));
       }
     };
-    // Se llama la funcion checkLoginStatus
     checkLoginStatus();
   }, []);
 
-  const logIn = async () => {
+  const logIn = async (type) => {
     setLoggedIn(true);
+    setUserType(type);
     await AsyncStorage.setItem('loggedIn', 'true');
+    await AsyncStorage.setItem('userType', type.toString());
   };
 
   const logOut = async () => {
     setLoggedIn(false);
+    setUserType(null);
     await AsyncStorage.removeItem('loggedIn');
+    await AsyncStorage.removeItem('userType');
   };
 
   return (
-    // Lo que hace basicamente es donde se llame AuthContext
-    // podra utilizar loggedIn (valor) y setLoggedIn (modificar)
-    // en la linea 17 de LogIn se utiliza con useContext
-    // en la linea 147 de App se utiliza para saber el valor
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={{ loggedIn, userType, logIn, logOut }}>
       {children}
     </AuthContext.Provider>
   );
