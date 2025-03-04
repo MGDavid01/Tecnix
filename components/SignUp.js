@@ -3,7 +3,8 @@ import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "reac
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
 import { getAuth, createUserWithEmailAndPassword } from "firebase/auth";
-import "../firebaseConfig"; // Asegúrate de importar tu configuración de Firebase
+import { getFirestore, doc, setDoc } from "firebase/firestore";
+import "../firebaseConfig";
 
 const SignUp = () => {
   const [firstName, setFirstName] = useState("");
@@ -16,15 +17,28 @@ const SignUp = () => {
   
   const navigation = useNavigation();
   const auth = getAuth();
-
+  const db = getFirestore();
+  
   const handleSignUp = async () => {
-    if (!email || !password) {
-      Alert.alert("Error", "Please enter email and password");
+    if (!email || !password || !firstName || !lastName || !date || !phone) {
+      Alert.alert("Error", "Please fill all fields");
       return;
-    }
-
+    } 
+    
     try {
-      await createUserWithEmailAndPassword(auth, email, password);
+      const userCredential = await createUserWithEmailAndPassword(auth, email, password);
+      const user = userCredential.user;
+      
+      // Guardar en Firestore
+      await setDoc(doc(db, "Technical", user.uid), {
+        firstName,
+        lastName,
+        email,
+        dateOfBirth: date,
+        phone,
+        createdAt: new Date()
+      });
+      
       Alert.alert("Success", "Account created successfully!");
       navigation.navigate("Login");
     } catch (error) {
@@ -153,7 +167,7 @@ const styles = StyleSheet.create({
   loginText: {
     color: "#FFF",
     marginRight: 4,
-  },
+  },  
   loginLink: {
     color: "#FFF",
     textDecorationLine: 'underline',

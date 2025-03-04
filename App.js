@@ -172,7 +172,7 @@ function HomeScreenTec() {
 function HomeScreenEmp() {
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 2</Text>
+      <Text style={styles.textMain}>Bienvenido Empleado</Text>
     </View>
   );
 }
@@ -180,7 +180,7 @@ function HomeScreenEmp() {
 function HomeScreenJefe() {
   return (
     <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 3</Text>
+      <Text style={styles.textMain}>Bienvenido Jefe</Text>
     </View>
   );
 }
