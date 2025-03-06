@@ -1,11 +1,7 @@
 nuevos comandos
 
 SI USAS NPM
-
-rm -rf node_modules package-lock.json
 npm install
 
 SI USAS YARN:
-
-rm -rf node_modules yarn.lock
 yarn install

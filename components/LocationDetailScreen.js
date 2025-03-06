@@ -1,30 +1,8 @@
 import React from 'react';
-import { View, Text, StyleSheet, SectionList } from 'react-native';
+import { View, Text, StyleSheet, Image } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import FontsTexts from './FontsTexts';
-
-const renderItem = ({ item, section }) => {
-  if (section.title === "Location Detail") {
-    return (
-      <View>
-        <Text style={styles.title}>{item.nameLocal}</Text>
-        <Text style={styles.itemText}>Address: {item.street}, {item.settlement}, {item.state}</Text>
-        <Text style={styles.itemText}>Phone: {item.phoneNumber}</Text>
-        <Text style={styles.itemText}>Opening Hours: {item.openingHours}</Text>
-        <Text style={styles.itemText}>Status: {item.status.path}</Text>
-      </View>
-    );
-  } else {
-    return (
-      <View style={styles.card}>
-        <Text style={styles.title}>{item.name}</Text>
-        <View style={styles.divider} />
-        <Text style={styles.itemText}>Id: {item.id}</Text>
-      </View>
-    );
-  }
-};
-
+import { TouchableOpacity } from 'react-native';
 
 const LocationDetailScreen = () => {
   const route = useRoute();
@@ -58,14 +36,34 @@ const LocationDetailScreen = () => {
   return (
     <FontsTexts>
       <View style={styles.container}>
-            <SectionList
-              sections={data}
-              keyExtractor={(item, index) => item + index}
-              renderItem={renderItem}
-              renderSectionHeader={({section: {title}}) => (
-                <Text style={styles.header}>{title}</Text>
-              )}
-            />
+        <View style={styles.contentDetail}>
+          <View>
+            <Text style={styles.header}>{item.nameLocal}</Text>
+            <Image />
+          </View>
+          <View style={styles.divider}>
+            <Text style={styles.title}>Contact:</Text>
+            <Text style={styles.itemText}>Phone: {item.phoneNumber}</Text>
+            <Text style={styles.itemText}>Address: {item.street}, {item.settlement}, {item.state}</Text>
+          </View>
+          <View style={styles.divider}>
+            <Text style={styles.title}>Activity:</Text>
+            <Text style={styles.itemText}>Opening Hours: {item.openingHours}</Text>
+            <Text style={styles.itemText}>Status: {item.status.path}</Text>
+          </View>
+        </View>
+        <View style={styles.contentMore}>
+          <View>
+            <TouchableOpacity>
+              <Text>Divices</Text>
+            </TouchableOpacity>
+          </View>
+          <View>
+            <TouchableOpacity style={styles.btn}>
+              <Text>Tickets History</Text>
+            </TouchableOpacity>
+          </View>
+        </View>
       </View>
     </FontsTexts>
   );
@@ -73,43 +71,69 @@ const LocationDetailScreen = () => {
 
 const styles = StyleSheet.create({
   container: {
-    padding: 20,
+    flex: 1,
+    alignContent: 'center',
+    alignSelf:'center',
+    justifyContent:'flex-start',
+    minWidth:'100%',
     backgroundColor: '#fff',
+  },
+  contentDetail: {
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5,
   },
   header: {
     fontSize: 32,
+    textAlign: 'center',
     fontFamily: 'Poppins-Bold',
-    marginBottom: 15,
+    color: '#333',
+    marginTop: "2%",
+  },
+  img:{
+
   },
   title: {
-    fontSize: 24,
-    fontFamily: 'Poppins-Bold',
-    marginBottom: 10,
-    color: '#333',
-  },
-  card: {
-    backgroundColor: '#f9f9f9',
-    padding: 20,
-    marginVertical: 10,
-    borderRadius: 10,
-    shadowColor: '#000',
-    shadowOpacity: 0.1,
-    shadowRadius: 4,
-    elevation: 3,
-    width: '100%',
-    minWidth: '100%',
-    alignSelf: "center",
+    fontSize: 20,
+    marginBottom: 5,
   },
   divider: {
-    borderBottomWidth: 1,
+    alignSelf: 'center',
+    width:"96%",
+    padding: 10,
+    marginBottom: 15,
+    borderBottomWidth: 5,
     borderBottomColor: "#FFC107",
-    marginBottom: 10,
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  contentMore: {
+    justifyContent:'space-around',
+    flexDirection: 'row',
+    backgroundColor: "#fff",
+    shadowColor: "#000",
+    shadowOpacity: 0.5,
+    shadowOffset: { width: 0, height: 2 },
+    shadowRadius: 4,
+    elevation: 5,
+  },
+  btn: {
+    backgroundColor: "#fff",
+    padding: 10,
+
   },
   itemText: {
     fontSize: 16,
     fontFamily: 'Poppins-Medium',
     color: '#555',
-    marginBottom: 8,
+    marginBottom: 1,
   },
 });
 
