@@ -3,17 +3,32 @@ import { View, Text, StyleSheet, SectionList } from 'react-native';
 import { useRoute } from '@react-navigation/native';
 import FontsTexts from './FontsTexts';
 
-const renderItem = ({ item }) => (
-    <View style={styles.card}>
-      <Text style={styles.title}>{item.name}</Text>
-      <View style={styles.divider} />
-      <Text style={styles.itemText}>Phone: {item.id}</Text>
-    </View>
-  );
+const renderItem = ({ item, section }) => {
+  if (section.title === "Location Detail") {
+    return (
+      <View>
+        <Text style={styles.title}>{item.nameLocal}</Text>
+        <Text style={styles.itemText}>Address: {item.street}, {item.settlement}, {item.state}</Text>
+        <Text style={styles.itemText}>Phone: {item.phoneNumber}</Text>
+        <Text style={styles.itemText}>Opening Hours: {item.openingHours}</Text>
+        <Text style={styles.itemText}>Status: {item.status.path}</Text>
+      </View>
+    );
+  } else {
+    return (
+      <View style={styles.card}>
+        <Text style={styles.title}>{item.name}</Text>
+        <View style={styles.divider} />
+        <Text style={styles.itemText}>Id: {item.id}</Text>
+      </View>
+    );
+  }
+};
+
 
 const LocationDetailScreen = () => {
   const route = useRoute();
-  const { location } = route.params;
+  const { item } = route.params;
 
   const devices = [
     { id: '1', name: 'Computer' },
@@ -27,6 +42,10 @@ const LocationDetailScreen = () => {
   ];
   const data = [
     {
+      title: "Location Detail",
+      data: [item]
+    },
+    {
       title: "Divices",
       data: devices
     },
@@ -39,14 +58,6 @@ const LocationDetailScreen = () => {
   return (
     <FontsTexts>
       <View style={styles.container}>
-          <View>
-            <Text style={styles.title}>{location.nameLocal}</Text>
-            <Text style={styles.itemText}>Address: {location.street}, {location.settlement}, {location.state}</Text>
-            <Text style={styles.itemText}>Phone: {location.phoneNumber}</Text>
-            <Text style={styles.itemText}>Opening Hours: {location.openingHours}</Text>
-            <Text style={styles.itemText}>Status: {location.status.path}</Text>
-          </View>
-          <View>
             <SectionList
               sections={data}
               keyExtractor={(item, index) => item + index}
@@ -55,8 +66,6 @@ const LocationDetailScreen = () => {
                 <Text style={styles.header}>{title}</Text>
               )}
             />
-          </View>
-        
       </View>
     </FontsTexts>
   );
@@ -65,19 +74,23 @@ const LocationDetailScreen = () => {
 const styles = StyleSheet.create({
   container: {
     padding: 20,
+    backgroundColor: '#fff',
   },
   header: {
     fontSize: 32,
+    fontFamily: 'Poppins-Bold',
+    marginBottom: 15,
   },
   title: {
     fontSize: 24,
     fontFamily: 'Poppins-Bold',
     marginBottom: 10,
+    color: '#333',
   },
   card: {
     backgroundColor: '#f9f9f9',
-    padding: 15,
-    marginVertical: 5,
+    padding: 20,
+    marginVertical: 10,
     borderRadius: 10,
     shadowColor: '#000',
     shadowOpacity: 0.1,
@@ -96,7 +109,7 @@ const styles = StyleSheet.create({
     fontSize: 16,
     fontFamily: 'Poppins-Medium',
     color: '#555',
-    marginBottom: 5,
+    marginBottom: 8,
   },
 });
 

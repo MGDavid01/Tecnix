@@ -1,29 +1,23 @@
-import React, { useContext, useEffect, useState } from 'react';
-import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView } from 'react-native';
-import { getFirestore, collection, getDocs } from 'firebase/firestore';
+import React, { useEffect, useState } from 'react';
+import { View, Text, FlatList, StyleSheet, TouchableOpacity, TextInput, SafeAreaView, ActivityIndicator } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import "../firebaseConfig";
 import FontsTexts from './FontsTexts';
-import { LocationContext } from '../context/LocationContext';
+import { useLocations } from '../hooks/useLocation';
 
 const LocationScreen = () => {
-  const [locations, setLocations] = useState([]);
+  const { locations, loading, error, fetchAllLocations } = useLocations();
   const [search, setSearch] = useState('');
   const [filteredLocations, setFilteredLocations] = useState([]);
-  const db = getFirestore();
   const navigation = useNavigation();
 
-  const { setLocation } = useContext(LocationContext);
   useEffect(() => {
-    const fetchLocations = async () => {
-      const locationCollection = await getDocs(collection(db, 'Locations'));
-      const locationsList = locationCollection.docs.map(doc => doc.data());
-      setLocations(locationsList);
-      setFilteredLocations(locationsList);
-    };
-
-    fetchLocations();
+    fetchAllLocations();
   }, []);
+
+  useEffect(() => {
+    setFilteredLocations(locations);
+  }, [locations]);
 
   const handleSearch = (text) => {
     setSearch(text);
@@ -33,9 +27,8 @@ const LocationScreen = () => {
     setFilteredLocations(filtered);
   };
 
-  const handleLocationSelect = (location) => {
-    setLocation(location);
-    navigation.navigate('Location Detail');
+  const handleLocationSelect = (item) => {
+    navigation.navigate('Location Detail', { item });
   };
   
   const renderItem = ({ item }) => (
@@ -63,12 +56,18 @@ const LocationScreen = () => {
           onChangeText={handleSearch}
         />
         
-        <FlatList
-          style={styles.listContainer}
-          data={filteredLocations}
-          renderItem={renderItem}
-          keyExtractor={(item, index) => index.toString()}
-        />
+        {loading ? (
+          <ActivityIndicator size="large" color="#0000ff" />
+        ) : (
+          <FlatList
+            style={styles.listContainer}
+            data={filteredLocations}
+            renderItem={renderItem}
+            keyExtractor={(item, index) => index.toString()}
+          />
+        )}
+        
+        {error && <Text style={styles.errorText}>{error}</Text>}
       </SafeAreaView>
     </FontsTexts>
   );
@@ -137,6 +136,11 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontFamily: "Poppins-Bold",
     fontSize: 14,
+  },
+  errorText: {
+    color: 'red',
+    fontSize: 16,
+    marginTop: 10,
   },
 });
 
