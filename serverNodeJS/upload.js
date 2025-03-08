@@ -1,3 +1,4 @@
+require('dotenv').config();
 const express = require('express');
 const multer = require('multer');
 const { google } = require('googleapis');
@@ -12,12 +13,10 @@ const upload = multer({ dest: 'uploads/' });
 const state = crypto.randomBytes(16).toString('hex');
 
 // Configura OAuth2
-const credentials = require('./credentialsWEB.json');
-const { client_secret, client_id, redirect_uris } = credentials.web;
 const oauth2Client = new google.auth.OAuth2(
-  client_id,
-  client_secret,
-  redirect_uris[0]
+  process.env.GOOGLE_OAUTH_CLIENT_ID,
+  process.env.GOOGLE_OAUTH_CLIENT_SECRET,
+  process.env.GOOGLE_OAUTH_REDIRECT_URIS
 );
 
 // Genera la URL de autorización
@@ -28,7 +27,7 @@ const authUrl = oauth2Client.generateAuthUrl({
 });
 
 console.log('Autoriza esta aplicación visitando esta URL:', authUrl);
-
+let oauth2Tokens = null;
 // Ruta para manejar la redirección desde Google
 app.get('/callback', async (req, res) => {
   try {
@@ -43,9 +42,9 @@ app.get('/callback', async (req, res) => {
     const { tokens } = await oauth2Client.getToken(code);
     oauth2Client.setCredentials(tokens);
 
-    // Guarda el token en un archivo
-    fs.writeFileSync('token.json', JSON.stringify(tokens));
-    console.log('Token guardado en token.json');
+    // Almacena el token en memoria
+    oauth2Tokens = tokens;
+    console.log('Token almacenado en memoria');
 
     res.send('Autenticación exitosa. Puedes cerrar esta ventana.');
   } catch (error) {
