@@ -1,11 +1,9 @@
 import React, { useContext } from 'react';
 import { StatusBar } from 'expo-status-bar';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'react-native';
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
-import { NavigationContainer } from '@react-navigation/native';
-import { TouchableOpacity } from 'react-native';
-import { useNavigation } from '@react-navigation/native';
+import { NavigationContainer, useNavigation } from '@react-navigation/native';
 
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import FontsTexts from "./components/FontsTexts";
@@ -23,6 +21,7 @@ import FeedbackScreen from './components/FeedbackScreen';
 import SettingScreen from './components/SettingScreen';
 import CustomDrawerContent from './components/CustomDrawerContent';
 import WatchTicketsScreen from './components/WatchTicketsScreen';
+import { ScrollView } from 'react-native-gesture-handler';
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
@@ -104,6 +103,9 @@ function getDrawerScreens(tipoUser) {
 
 function AppContent() {
   const { loggedIn, userType } = useContext(AuthContext);
+  const dimensions = useWindowDimensions();
+
+  const isLargeScreen = dimensions.width >= 460;
 
   if (!loggedIn) {
     return (
@@ -121,7 +123,24 @@ function AppContent() {
   return (
     <FontsTexts>
       <NavigationContainer>
-        <Drawer.Navigator initialRouteName="Home" drawerContent={(props) => <CustomDrawerContent {...props} />}>
+        <Drawer.Navigator 
+          initialRouteName="Home"
+          screenOptions={{
+            drawerType: isLargeScreen ? 'permanent' : 'slide',
+            drawerStyle: isLargeScreen ? 'null' : { width: '100%' },
+            overlayColor: 'transparent',
+
+            drawerStyle: {
+              backgroundColor: '#1E3A8A',
+            },
+            drawerActiveTintColor: 'white',
+            drawerActiveBackgroundColor: '#003CB3',
+            drawerLabelStyle: {
+              color: 'white',
+            }
+          }}
+          drawerContent={(props) => <CustomDrawerContent {...props} />}
+        >
           {getDrawerScreens(userType)}
         </Drawer.Navigator>
         <StatusBar style="auto" translucent={false} backgroundColor="#faec5c" />
@@ -132,6 +151,8 @@ function AppContent() {
 
 
 function HomeScreenTec() {
+  // se utilizara para navegar a algunas
+  // herramientas mas rapidamente
   const navigation = useNavigation();
   const cardTitles = [
       "Notificaciones",
@@ -150,8 +171,8 @@ function HomeScreenTec() {
       "Statistics",
     ];
   return (
-    <View style={styles.screenContainer}>
-      <Text style={styles.textMain}>Bienvenido Usuario Tipo 1</Text>
+    <ScrollView style={styles.screenContainer}>
+      <Text style={styles.textMain}>Bienvenido Tecnico</Text>
       {cardTitles.map((title, i) => (
         <View key={i} style={styles.card}>
           <View style={styles.containerTopCard}>
@@ -165,7 +186,7 @@ function HomeScreenTec() {
           ))}
         </View>
       ))}
-    </View>
+    </ScrollView>
   );
 }
 
@@ -201,8 +222,6 @@ const styles = StyleSheet.create({
   },
   screenContainer: {
     flex: 1,
-    justifyContent: 'flex-start',
-    alignItems: 'center',
     backgroundColor: "#F5F5F5",
   },
   textMain: {
@@ -215,6 +234,7 @@ const styles = StyleSheet.create({
     color:"#2E2E2E",
   },
   card: {
+    alignSelf: 'center',
     backgroundColor: '#fff',
     borderRadius: 8,
     padding: 16,

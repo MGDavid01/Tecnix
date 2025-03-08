@@ -1,5 +1,5 @@
 import React, { useState, useContext } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Image, Platform } from "react-native";
 import { LinearGradient } from "expo-linear-gradient";
 import { MaterialCommunityIcons } from "@expo/vector-icons";
 import { useNavigation } from '@react-navigation/native';
@@ -85,59 +85,61 @@ const Login = () => {
 
   return (
     <FontsTexts>
-      <LinearGradient colors={["#1E90FF", "#007AFF"]} style={styles.container}>
+      <LinearGradient colors={["#007AFF", "#1E3A8A"]} style={styles.container}>
         <View style={styles.logoContainer}>
-          <MaterialCommunityIcons name="shield-lock-outline" size={50} color="#FFF" />
+          <Image style={styles.logo} source={require('../assets/TecnixLogoBlanco.png')} />
         </View>
-        <Text style={[styles.text, styles.title]}>Sign in to your Account</Text>
-        <Text style={[styles.text, styles.subtitle]}>Enter your email and password to log in</Text>
+        <View style={styles.infoContainer}>
+          <Text style={[styles.text, styles.title]}>Sign in to your Account</Text>
+          <Text style={[styles.text, styles.subtitle]}>Enter your email and password to log in</Text>
 
-        {error && <Text style={styles.errorText}>{error}</Text>}
+          {error && <Text style={styles.errorText}>{error}</Text>}
 
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Email"
-            placeholderTextColor="#777"
-            value={email}
-            onChangeText={setEmail}
-            keyboardType="email-address"
-            autoCapitalize="none"
-          />
-        </View>
-
-        <View style={styles.inputContainer}>
-          <TextInput
-            style={styles.input}
-            placeholder="Password"
-            placeholderTextColor="#777"
-            value={password}
-            onChangeText={setPassword}
-            secureTextEntry={!showPassword}
-          />
-          <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
-            <MaterialCommunityIcons 
-              name={showPassword ? "eye-off-outline" : "eye-outline"} 
-              size={20} 
-              color="#777" 
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Email"
+              placeholderTextColor="#777"
+              value={email}
+              onChangeText={setEmail}
+              keyboardType="email-address"
+              autoCapitalize="none"
             />
+          </View>
+
+          <View style={styles.inputContainer}>
+            <TextInput
+              style={styles.input}
+              placeholder="Password"
+              placeholderTextColor="#777"
+              value={password}
+              onChangeText={setPassword}
+              secureTextEntry={!showPassword}
+            />
+            <TouchableOpacity onPress={() => setShowPassword(!showPassword)} style={styles.eyeIcon}>
+              <MaterialCommunityIcons 
+                name={showPassword ? "eye-off-outline" : "eye-outline"} 
+                size={20} 
+                color="#777" 
+              />
+            </TouchableOpacity>
+          </View>
+
+          <TouchableOpacity onPress={handleLogIn} style={styles.loginButton}>
+            <Text style={[styles.text, styles.loginText]}>Log In</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleGoogleSignIn} style={styles.googleButton}>
+            <MaterialCommunityIcons name="google" size={24} color="#FFF" />
+            <Text style={[styles.text, styles.googleButtonText]}>Sign in with Google</Text>
+          </TouchableOpacity>
+
+          <TouchableOpacity onPress={handleSignUp}>
+            <Text style={[styles.text, styles.signUpText]}>
+              Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
+            </Text>
           </TouchableOpacity>
         </View>
-
-        <TouchableOpacity onPress={handleLogIn} style={styles.loginButton}>
-          <Text style={[styles.text, styles.loginText]}>Log In</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleGoogleSignIn} style={styles.googleButton}>
-          <MaterialCommunityIcons name="google" size={24} color="#FFF" />
-          <Text style={[styles.text, styles.googleButtonText]}>Sign in with Google</Text>
-        </TouchableOpacity>
-
-        <TouchableOpacity onPress={handleSignUp}>
-          <Text style={[styles.text, styles.signUpText]}>
-            Don't have an account? <Text style={styles.signUpLink}>Sign Up</Text>
-          </Text>
-        </TouchableOpacity>
       </LinearGradient>
     </FontsTexts>
   );
@@ -148,11 +150,33 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
+    alignContent:'center',
     padding: 20,
+    ...(Platform.OS === 'web' && {
+      flexDirection: 'row',
+      margin: 'center', // Centra el contenedor en la pantalla
+    }),
   },
   logoContainer: {
-    marginBottom: 20,
     alignItems: "center",
+    ...(Platform.OS === 'web' ? {
+      width: "40%", // Ajusta el ancho según sea necesario
+      height: "65%", // Ajusta la altura según sea necesario
+    } : {
+      width: "100%", // Ajusta el ancho según sea necesario
+      height: "40%", // Ajusta la altura según sea necesario
+    }),
+  },
+  logo: {
+    width: "100%",
+    height: "100%",
+    resizeMode: "contain", // Asegura que la imagen se ajuste dentro del contenedor
+  },
+  infoContainer:{
+    flex: 1,
+    width: "100%",
+    alignItems: 'center',
+    justifyContent: "center",
   },
   text: {
     fontFamily: 'Poppins-Regular',
@@ -193,7 +217,7 @@ const styles = StyleSheet.create({
     padding: 10,
   },
   loginButton: {
-    backgroundColor: "#0056B3",
+    backgroundColor: "#FFC107",
     padding: 15,
     borderRadius: 8,
     width: "100%",
@@ -202,7 +226,7 @@ const styles = StyleSheet.create({
   },
   loginText: {
     fontSize: 18,
-    color: "#FFF",
+    color: "#FFFFFF",
     fontWeight: "bold",
   },
   signUpText: {

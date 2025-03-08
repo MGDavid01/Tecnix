@@ -1,5 +1,5 @@
 import { useState, useEffect } from 'react';
-import { getLocationById, getAllLocations } from '../services/locationService';
+import { getOneLocation, getAllLocations } from '../services/locationService';
 import { auth } from '../firebaseConfig'; // Import auth
 
 export const useLocations = () => {
@@ -23,7 +23,7 @@ export const useLocations = () => {
       setLoading(true);
       setError(null);
       try {
-        const data = await getLocationById(id);
+        const data = await getOneLocation(id);
         setLocation(data);
       } catch (err) {
         setError(err);

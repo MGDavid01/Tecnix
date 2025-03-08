@@ -36,7 +36,9 @@ const LocationScreen = () => {
       <Text style={styles.title}>{item.nameLocal}</Text>
       <View style={styles.divider} />
       <Text style={styles.itemText}>Phone: {item.phoneNumber}</Text>
-      <Text style={styles.itemText}>Status: {item.status.path}</Text>
+      {/* Posibilidad no funcional de actualizar esta info automaticamente
+              con firabase functions */}
+      <Text style={styles.itemText}>Status: {item.status}</Text>
       <TouchableOpacity
         style={styles.button}
         onPress={() => handleLocationSelect(item)}
@@ -83,12 +85,13 @@ const styles = StyleSheet.create({
     minWidth: '100%',
   },
   searchBar: {
-    height: "5%",
+    minHeight: "5%",
     borderColor: '#ccc',
     borderWidth: 1,
     borderRadius: 5,
     paddingHorizontal: 10,
-    marginBottom: 20,
+    marginTop:5,
+    marginBottom: 5,
     width: '100%',
   },
   listContainer: {

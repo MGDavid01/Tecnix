@@ -36,13 +36,11 @@ const CustomDrawerContent = (props) => {
       <View style={styles.header}>
         <Text style={styles.headerText}>TECNIX</Text>
       </View>
-      {/* Se renderizan todas las pantallas que estan dentro
-        de Drawer.Navigator pasado atraves de ...props
-      */}
       <DrawerItemList {...props} />
       <DrawerItem
         label="Log Out"
         onPress={handleLogOut}
+        labelStyle={{ color: '#FFFFFF' }}
       />
     </DrawerContentScrollView>
   );
@@ -52,7 +50,6 @@ const styles = StyleSheet.create({
   header: {
     padding: 6,
     marginBottom: 6,
-    backgroundColor: '#1E90FF',
     alignItems: 'center',
   },
   headerText: {
@@ -64,6 +61,7 @@ const styles = StyleSheet.create({
   logOutText: {
     color: '#FFF',
     fontWeight: 'semibold',
+    alignSelf:'flex-end',
   }
 });
 

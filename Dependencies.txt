@@ -5,3 +5,9 @@ npm install
 
 SI USAS YARN:
 yarn install
+
+DESPUES
+
+cd serverNodeJS
+
+npm install
