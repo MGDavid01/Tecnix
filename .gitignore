@@ -38,6 +38,5 @@ yarn-error.*
 # typescript
 *.tsbuildinfo
 
-#token
-token.json
-serviceAccountKey.json
+# token
+/serverNodeJS/token.json
