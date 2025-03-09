@@ -4,34 +4,67 @@ import { View, Text, StyleSheet, TouchableOpacity, useWindowDimensions } from 'r
 import { createDrawerNavigator } from '@react-navigation/drawer';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
 import { NavigationContainer, useNavigation } from '@react-navigation/native';
-
+import { ScrollView } from 'react-native-gesture-handler';
+// IMPORTANTES
 import { AuthProvider, AuthContext } from './context/AuthContext';
 import FontsTexts from "./components/FontsTexts";
+import CustomDrawerContent from './components/CustomDrawerContent';
+//SCREENS
+  // lOGIN Y SIGNUP
+import Login from './components/LogIn';
+import SignUp from './components/SignUp';
+  // TECNICO Y JEFE
 import TicketScreen from './components/TicketScreen';
 import TicketDetailsScreen from './components/TicketDetailsScreen';
 import MakeTicketScreen from './components/makeTicketScreen';
 import TicketHistoryScreen from './components/TicketHistory';
-import UsersScreen from './components/UserScreen';
+import TicketHistoryDetailsScreen  from "./components/TicketHistoryDetailsScreen";
+import ReportsScreen from './components/ReportsScreen';
 import LocationScreen from './components/LocationScreen';
 import LocationDetailScreen from './components/LocationDetailScreen';
-import Login from './components/LogIn';
-import SignUp from './components/SignUp';
-import ReportsScreen from './components/ReportsScreen';
+import DivicesScreen from './components/DivicesScreen';
+  //JEFE
+import UsersScreen from './components/UserScreen';
+  //EMPLEADO
 import FeedbackScreen from './components/FeedbackScreen';
+  //GENERAL
 import SettingScreen from './components/SettingScreen';
-import CustomDrawerContent from './components/CustomDrawerContent';
-import WatchTicketsScreen from './components/WatchTicketsScreen';
-import { ScrollView } from 'react-native-gesture-handler';
+
+
+
 
 const Drawer = createDrawerNavigator();
 const Stack = createNativeStackNavigator();
 
-function TicketsStackTec() {
+function TicketTool() {
+  const navigation = useNavigation();
+
+  return (
+    <View style={styles.screenContainer}>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Pending Ticket')}
+      >
+        <Text style={styles.buttonText}>Go to Pending Ticket</Text>
+      </TouchableOpacity>
+      <TouchableOpacity
+        style={styles.button}
+        onPress={() => navigation.navigate('Ticket History')}
+      >
+        <Text style={styles.buttonText}>Go to Ticket History</Text>
+      </TouchableOpacity>
+    </View>
+  );
+}
+
+function TicketsStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="Pending Ticket" component={TicketScreen} options={{ headerShown: false }} />
+      <Stack.Screen name="Ticket Tool" component={TicketTool} options={{ headerShown: false }} />
+      <Stack.Screen name="Pending Ticket" component={TicketScreen} />
       <Stack.Screen name="Ticket Details" component={TicketDetailsScreen} />
-      <Stack.Screen name="History" component={TicketHistoryScreen} />
+      <Stack.Screen name="Ticket History" component={TicketHistoryScreen} />
+      <Stack.Screen name="Ticket History Details" component={TicketHistoryDetailsScreen}/>
     </Stack.Navigator>
   );
 }
@@ -39,7 +72,7 @@ function TicketsStackTec() {
 function LocationsStack() {
   return (
     <Stack.Navigator>
-      <Stack.Screen name="LocationsTec" component={LocationScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Locations" component={LocationScreen} options={{ headerShown: false }}/>
       <Stack.Screen name="Location Detail" component={LocationDetailScreen} />
     </Stack.Navigator>
   );
@@ -62,12 +95,25 @@ function Users(){
 }
 
 //Funcion para ver los tickets hechos por los usuarios
-function WatchTickets(){
+function DivicesStack(){
   return(
     <Stack.Navigator>
-      <Stack.Screen name="watchTickets" component={WatchTicketsScreen} options={{ headerShown: false}}/>
+      <Stack.Screen name="Divices" component={DivicesScreen} options={{ headerShown: false }}/>
+      <Stack.Screen name="Divice Detail" component={LocationDetailScreen} />
     </Stack.Navigator>
   );
+}
+
+function ReportsStack(){
+  <Stack.Navigator>
+    <Stack.Screen name='Reports' component={ReportsScreen} options={{ headerShown: false }}/>
+  </Stack.Navigator>
+}
+
+function SettingsStack(){
+  <Stack.Navigator>
+    <Stack.Screen name='Settings' component={SettingScreen} options={{ headerShown: false }}/>
+  </Stack.Navigator>
 }
 
 function getDrawerScreens(tipoUser) {
@@ -76,17 +122,24 @@ function getDrawerScreens(tipoUser) {
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenTec} />
-          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Divices" component={DivicesStack} />
           <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Reports" component={ReportsStack} />
+          <Drawer.Screen name="Settings" component={SettingsStack} />
         </>
       );
     case 2:
       return (
         <>
           <Drawer.Screen name="Home" component={HomeScreenJefe} />
-          <Drawer.Screen name="Tickets" component={TicketsStackTec} />
-          <Drawer.Screen name="Locations" component={LocationsStack} />
           <Drawer.Screen name="Users" component={UsersScreen} />
+          <Drawer.Screen name="Tickets" component={TicketsStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Divices" component={DivicesStack} />
+          <Drawer.Screen name="Locations" component={LocationsStack} />
+          <Drawer.Screen name="Reports" component={ReportsStack} />
+          <Drawer.Screen name="Settings" component={SettingsStack} />
         </>
       );
     case 3:
@@ -94,6 +147,7 @@ function getDrawerScreens(tipoUser) {
         <>
         <Drawer.Screen name="Home" component={HomeScreenEmp} />
         <Drawer.Screen name="Tickets" component={MakeTicketOption} />
+        <Drawer.Screen name="Settings" component={SettingsStack} />
       </>
       );
     default:
@@ -214,7 +268,6 @@ export default function App() {
   );
 }
 
-
 const styles = StyleSheet.create({
   content: {
     fontFamily: "Poppins-Regular",
@@ -277,5 +330,17 @@ const styles = StyleSheet.create({
     fontFamily: "Poppins-Regular",
     fontSize: 16,
     color: "#2E2E2E",
+  },
+  button: {
+    backgroundColor: '#1E3A8A',
+    padding: 15,
+    borderRadius: 8,
+    marginVertical: 10,
+    alignItems: 'center',
+  },
+  buttonText: {
+    color: 'white',
+    fontFamily: 'Poppins-Bold',
+    fontSize: 16,
   },
 });

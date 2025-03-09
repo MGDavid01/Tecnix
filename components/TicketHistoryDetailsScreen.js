@@ -1,7 +1,7 @@
 import React from 'react';
 import { View, Text, FlatList, StyleSheet } from 'react-native';
 
-const TicketHistoryScreen = () => {
+const TicketHistoryDetailsScreen = () => {
   // Datos de ejemplo
   const ticketHistory = [
     {
@@ -32,6 +32,7 @@ const TicketHistoryScreen = () => {
 
   return (
     <View style={styles.screenContainer}>
+      <Text style={styles.title}>Ticket History</Text>
       <FlatList
         data={ticketHistory}
         keyExtractor={(item) => item.number}
@@ -39,7 +40,9 @@ const TicketHistoryScreen = () => {
           <View style={styles.card}>
             <Text style={styles.ticketNumber}>Ticket #{item.number} - {item.code}</Text>
             <Text style={styles.date}>📅 {item.updateDate}</Text>
-            <Text style={styles.state}>🔄 {item.previousState} → ✅ {item.newState}</Text>
+            <Text style={styles.state}>
+              🔄 {item.previousState} → ✅ {item.newState}
+            </Text>
             <Text style={styles.comments}>💬 {item.comments}</Text>
           </View>
         )}
@@ -92,4 +95,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default TicketHistoryScreen;
+export default TicketHistoryDetailsScreen;

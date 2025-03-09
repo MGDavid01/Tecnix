@@ -4,7 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { Picker } from '@react-native-picker/picker';
 import Icon from 'react-native-vector-icons/FontAwesome';
 
-const TicketScreen = () => {
+const DivicesScreen = () => {
   const navigation = useNavigation();
   const [selectedValue, setSelectedValue] = useState("id");
 
@@ -112,7 +112,7 @@ const TicketScreen = () => {
       <FlatList
         data={sortedTickets}
         keyExtractor={(item) => item.id}
-        style={{ width: '98%' }}
+        style={{ width: '100%' }}
         renderItem={({ item }) => (
           <View style={styles.ticketContainer}>
             <View style={styles.ticketTop}>
@@ -145,90 +145,81 @@ const styles = StyleSheet.create({
     fontFamily: 'Poppins-Bold',
     marginBottom: 10,
     textAlign: 'center',
-    color: '#1E3A8A',
   },
   optionsContainer: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
     width: '100%',
+    minWidth: '100%',
     backgroundColor: '#1E3A8A',
-    paddingHorizontal: 10,
-    paddingVertical: 8,
+    color: '#fff',
   },
   pickerText: {
     color: '#fff',
-    fontFamily: 'Poppins-SemiBold',
+    fontFamily: 'Poppins-Bold',
     fontSize: 16,
     width: '40%',
     textAlign: 'center',
   },
   picker: {
     height: 50,
-    width: '60%',
-    color: '#1E3A8A',
+    width: "60%",
+    color: '#000',
     fontFamily: 'Poppins-Regular',
-    backgroundColor: '#FFFFFF',
-    borderRadius: 8,
+    backgroundColor: '#f9f9f9',
+  },
+  flatListContainer: {
+    width: '100%',
+    minWidth: '100%',
+    paddingHorizontal: 10,
   },
   ticketContainer: {
     backgroundColor: '#f9f9f9',
     padding: 15,
-    marginVertical: 6,
+    marginVertical: 5,
     borderRadius: 10,
     shadowColor: '#000',
-    shadowOpacity: 0.05,
-    shadowRadius: 3,
-    elevation: 2,
-    borderLeftWidth: 4,
-    borderLeftColor: '#1E3A8A',
+    shadowOpacity: 0.1,
+    shadowRadius: 4,
+    elevation: 3,
+    width: '100%',
+    minWidth: '100%',
+    alignSelf:"center",
   },
   ticketTop: {
     flexDirection: 'row',
     justifyContent: 'space-between',
     alignItems: 'center',
+    width: '100%',
+    minWidth: '100%',
     borderBottomWidth: 1,
-    borderBottomColor: '#FFC107',
-    paddingBottom: 6,
-    marginBottom: 8,
+    borderBottomColor: "#FFC107",
+    paddingBottom: 5,
   },
   ticketTitle: {
     fontSize: 18,
     fontFamily: 'Poppins-Bold',
-    color: '#1E3A8A',
-    flex: 1,
+    width: "100%,"
   },
   subtitle: {
-    fontSize: 15,
-    fontFamily: 'Poppins-SemiBold',
-    color: '#374151',
-    marginBottom: 2,
+    fontSize: 16,
+    fontFamily: 'Poppins-Medium',
+    color: '#555',
   },
   button: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
-    backgroundColor: '#1E3A8A',
+    marginTop: 5,
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    backgroundColor: "#1E3A8A",
     borderRadius: 5,
+    alignSelf: 'flex-end',
   },
   buttonText: {
-    color: '#fff',
-    fontFamily: 'Poppins-Bold',
+    color: "#fff",
+    fontFamily: "Poppins-Bold",
     fontSize: 14,
-  },
-
-  // Opcionales para campos adicionales
-  fieldLabel: {
-    fontSize: 14,
-    fontFamily: 'Poppins-Medium',
-    color: '#6B7280',
-  },
-  fieldValue: {
-    fontSize: 14,
-    fontFamily: 'Poppins-Regular',
-    color: '#111827',
-    marginBottom: 4,
   },
 });
 
-
-export default TicketScreen;
+export default DivicesScreen;
